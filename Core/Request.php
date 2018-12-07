@@ -6,6 +6,8 @@
  * Time: 2:39 PM
  */
 
+namespace Core;
+
 class Request
 {
 

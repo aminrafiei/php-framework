@@ -43,10 +43,12 @@ class Router
     public static function redirect($uri, $method)
     {
 
-
         if (array_key_exists($uri,self::$route[$method])){
 
-            return self::$route[$method][$uri];
+            return self::doAction(
+
+                ...explode('@',self::$route[$method][$uri])
+            );
         }
 
         return new Exception();
@@ -59,6 +61,19 @@ class Router
     public static function getRoute(): array
     {
         return self::$route;
+    }
+
+    public static function doAction($controller, $action)
+    {
+        $pathController = "App\Controller\\".$controller;
+        $controller = new $pathController;
+
+        if(!method_exists($controller,$action)){
+            return new Exception('no');
+        }
+
+
+        return $controller->$action();
     }
 
 

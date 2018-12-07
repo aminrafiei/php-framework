@@ -1,6 +1,10 @@
 <?php
 
-require 'Core/bootstrap.php';
-require 'routes.php';
+use Core\Request;
 
-require Router::redirect(Request::uri(),Request::method());
+require 'vendor/autoload.php';
+
+require 'Core/bootstrap.php';
+require 'routes/routes.php';
+
+Router::redirect(Request::uri(),Request::method());
