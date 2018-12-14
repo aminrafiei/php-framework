@@ -6,7 +6,7 @@
  * Time: 2:39 PM
  */
 
-namespace Core;
+namespace Core\Kernel;
 
 class Request
 {

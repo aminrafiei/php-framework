@@ -6,7 +6,7 @@
  * Time: 9:36 PM
  */
 
-namespace Core;
+namespace Core\Kernel;
 
 class App
 {

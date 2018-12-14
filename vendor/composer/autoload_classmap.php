@@ -6,14 +6,18 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Controller\\PagesController' => $baseDir . '/app/Controller/PagesController.php',
-    'App\\Controller\\TasksController' => $baseDir . '/app/Controller/TasksController.php',
+    'App\\Controller\\PagesController' => $baseDir . '/app/Controllers/PagesController.php',
+    'App\\Controller\\TasksController' => $baseDir . '/app/Controllers/TasksController.php',
     'ComposerAutoloaderInit6dd8954e3d93bac843e46c140f8aa2fa' => $vendorDir . '/composer/autoload_real.php',
     'Composer\\Autoload\\ClassLoader' => $vendorDir . '/composer/ClassLoader.php',
     'Composer\\Autoload\\ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa' => $vendorDir . '/composer/autoload_static.php',
     'Connection' => $baseDir . '/Core/Database/Connection.php',
-    'Core\\App' => $baseDir . '/Core/App.php',
-    'Core\\Request' => $baseDir . '/Core/Request.php',
+    'Core\\BaseController' => $baseDir . '/Core/BaseController.php',
+    'Core\\BaseModel' => $baseDir . '/Core/BaseModel.php',
+    'Core\\Kernel\\App' => $baseDir . '/Core/Kernel/App.php',
+    'Core\\Kernel\\Request' => $baseDir . '/Core/Kernel/Request.php',
     'QueryBuilder' => $baseDir . '/Core/Database/QueryBuilder.php',
     'Router' => $baseDir . '/Core/Router.php',
+    'Task' => $baseDir . '/app/Models/Task.php',
+    'User' => $baseDir . '/app/Models/User.php',
 );
