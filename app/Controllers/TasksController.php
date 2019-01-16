@@ -8,30 +8,31 @@
 
 namespace App\Controller;
 
-use \Task;
-use \User;
+use Core\BaseController;
+use Task;
 
-class TasksController
+class TasksController extends BaseController
 {
-
     public function index()
     {
-
-        $user = new User();
-        dd($user->all()->get());
+        $user = new Task();
+//        foreach ($user->all()->get() as $item) {
+//            dd($item->task);
+//        }
+//        dd($user->all()->get());
 //        dd($user->create([
-//            'name' => 'rez',
-//            'password' => 123456,
-//            'age' => 12
+//            'task' => '123123',
+//            'done' => 1,
 //        ]));
-
 //        $task = new Task();
 //        $task->create([
 //            'name' => 'amin'
 //        ]);
-//        dd($task->find('1'));
-//        $task->update();
-        //App::get('database')->table('task')->select()->get();
+//        dd($user->find(1));
+//        dd($user->update([
+//            'done' => 1
+//        ], $user->find(1)->id));
+//        App::get('database')->table('task')->select()->get();
 
 //        $tasks = App::get('database')->selectAll('task');
 //

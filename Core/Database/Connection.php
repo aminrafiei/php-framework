@@ -8,6 +8,10 @@
 
 class Connection
 {
+    /**
+     * @param $config
+     * @return PDO
+     */
     public static function make($config)
     {
         try{

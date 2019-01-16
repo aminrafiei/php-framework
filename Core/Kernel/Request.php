@@ -8,15 +8,24 @@
 
 namespace Core\Kernel;
 
+/**
+ * Class Request
+ * @package Core\Kernel
+ */
 class Request
 {
-
-    public static function uri()
+    /**
+     * @return string
+     */
+    public function uri()
     {
         return trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
     }
 
-    public static function method()
+    /**
+     * @return mixed
+     */
+    public function method()
     {
         return $_SERVER['REQUEST_METHOD'];
     }

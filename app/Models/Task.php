@@ -10,14 +10,12 @@ use Core\BaseModel;
 
 class Task extends BaseModel
 {
-
     /**
      * Task constructor.
      */
     public function __construct()
     {
-        parent::__construct('task');
+        parent::__construct('tasks');
     }
-
 
 }

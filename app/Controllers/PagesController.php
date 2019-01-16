@@ -8,9 +8,10 @@
 
 namespace App\Controller;
 
-class PagesController
-{
+use Core\BaseController;
 
+class PagesController extends BaseController
+{
     public function home()
     {
         return view('home');
@@ -20,6 +21,4 @@ class PagesController
     {
         return view('about');
     }
-
-
 }

@@ -8,7 +8,6 @@
 
 class Router
 {
-
     /**
      * @var array
      */
@@ -75,6 +74,4 @@ class Router
 
         return $controller->$action();
     }
-
-
 }

@@ -1,20 +1,25 @@
 <?php
 
-function dd($data){
-
+function dd($data)
+{
     echo "<pre>";
     die(var_dump($data));
     echo "</pre>";
 }
 
-function redirect ($path){
-
+function redirect($path)
+{
     header('Location: '.$path);
 }
 
-function view ($path,$data=[]){
-
+function view($path, $data = [])
+{
     extract($data);
 
     require 'View/'.$path.'.view.php';
+}
+
+function request()
+{
+    return \Core\Kernel\App::get('request');
 }

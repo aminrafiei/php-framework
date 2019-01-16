@@ -59,7 +59,6 @@ class QueryBuilder
      */
     public function select(array $attributes = ['*'])
     {
-
         $column = join(", ", $attributes);
 
         $this->query = SELECT
@@ -107,24 +106,20 @@ class QueryBuilder
             . "($joinValues)";
 
         return $this->set(array_combine($columns, $values));
-
     }
 
     /**
      * @param $columns
-     * @param $values
      * @param $value
      * @param string $key
      * @return bool
      */
-    public function update($columns, $values, $value, $key = 'id')
+    public function update(array $columns, $value, $key = 'id')
     {
-
         $data = array_map(function ($columns, $values) {
-
             return "$columns=$values";
 
-        }, $columns, $values);
+        }, array_keys($columns), array_values($columns));
 
         $data = join(', ', $data);
 
@@ -135,8 +130,7 @@ class QueryBuilder
             . WHERE
             . $key . '=' . $value;
 
-        return $this->set($this->query);
-
+        return $this->set();
     }
 
     /**

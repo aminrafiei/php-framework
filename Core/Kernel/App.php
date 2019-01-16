@@ -8,16 +8,30 @@
 
 namespace Core\Kernel;
 
+/**
+ * Class App
+ * @package Core\Kernel
+ */
 class App
 {
-
+    /**
+     * @var
+     */
     public static $register;
 
-    public static function bind($key,$value)
+    /**
+     * @param $key
+     * @param $value
+     */
+    public static function bind($key, $value)
     {
         self::$register[$key] = $value;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public static function get($key)
     {
         return self::$register[$key];

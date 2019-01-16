@@ -18,7 +18,6 @@ use Core\Kernel\App;
  */
 abstract class BaseModel
 {
-
     /**
      * @var
      */
@@ -63,7 +62,6 @@ abstract class BaseModel
             ->where($key, $value);
 
         return $this->first();
-
     }
 
     /**
@@ -129,16 +127,15 @@ abstract class BaseModel
             ->insert(array_keys($columns), array_values($columns));
     }
 
-
     /**
-     * @param $columns
-     * @param $values
+     * @param array $columns
+     * @param $id
+     * @return bool
      */
-    public function update($columns, $values)
+    public function update(array $columns, $id)
     {
-
-        $this->database->table($this->table)
-            ->update($columns,$values,1);
+        return $this->database->table($this->table)
+            ->update($columns, $id);
     }
 
     /**
