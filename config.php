@@ -6,7 +6,7 @@ return [
 
         'name' => 'task',
         'username' => 'root',
-        'password' => 'toor',
+        'password' => '',
         'connection' => 'mysql:host=127.0.0.1',
         'options' => '',
     ]

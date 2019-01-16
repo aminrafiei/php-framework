@@ -13,7 +13,6 @@ require 'MySqlQuery.php';
  */
 class QueryBuilder
 {
-
     /**
      * @var PDO
      */
