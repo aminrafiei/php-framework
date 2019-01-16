@@ -15,6 +15,8 @@ class TasksController extends BaseController
 {
     public function index()
     {
+        dd("asd");
+        request()->get();
         $user = new Task();
 //        foreach ($user->all()->get() as $item) {
 //            dd($item->task);
@@ -41,6 +43,9 @@ class TasksController extends BaseController
 
     public function store()
     {
-
+//        $user = new Task();
+//        $id = request()->get(['name']);
+//
+//        dd($user->delete($user->find($id)->id));
     }
 }

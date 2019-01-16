@@ -15,22 +15,5 @@ namespace Core;
  */
 class BaseController
 {
-    /**
-     * @param $path
-     */
-    public function redirect($path)
-    {
-        header('Location: ' . $path);
-    }
 
-    /**
-     * @param $path
-     * @param array $data
-     */
-    public function view($path, $data = [])
-    {
-        extract($data);
-
-        require 'View/' . $path . '.view.php';
-    }
 }

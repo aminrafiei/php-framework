@@ -14,6 +14,7 @@ class Router
     protected static $route = [
         'GET' => [],
         'POST' => [],
+        'DELETE' => [],
     ];
 
     /**
@@ -36,12 +37,20 @@ class Router
 
     /**
      * @param $uri
+     * @param $path
+     */
+    public static function delete($uri, $path)
+    {
+        self::$route['DELETE'][$uri] = $path;
+    }
+
+    /**
+     * @param $uri
      * @param $method
      * @return Exception
      */
     public static function redirect($uri, $method)
     {
-
         if (array_key_exists($uri,self::$route[$method])){
 
             return self::doAction(

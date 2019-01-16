@@ -110,13 +110,6 @@ abstract class BaseModel
 
     }
 
-
-    public function save()
-    {
-
-    }
-
-
     /**
      * @param $columns
      * @return bool
@@ -138,11 +131,15 @@ abstract class BaseModel
             ->update($columns, $id);
     }
 
-    /**
-     *
-     */
-    public function delete()
-    {
 
+    /**
+     * @param $value
+     * @param string $key
+     * @return mixed
+     */
+    public function delete($value, $key = 'id')
+    {
+        return $this->database->table($this->table)
+            ->delete($value, $key);
     }
 }

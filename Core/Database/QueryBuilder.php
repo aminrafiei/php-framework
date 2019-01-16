@@ -134,6 +134,21 @@ class QueryBuilder
     }
 
     /**
+     * @param $value
+     * @param string $key
+     * @return bool
+     */
+    public function delete($value, $key)
+    {
+        $this->query = DELETE
+            . $this->table
+            . WHERE
+            . $key . '=' . $value;
+
+        return $this->set();
+    }
+
+    /**
      * @param array $data
      * @return bool
      */
