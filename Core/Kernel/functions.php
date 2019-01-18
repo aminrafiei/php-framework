@@ -23,3 +23,8 @@ function request()
 {
     return \Core\Kernel\App::get('request');
 }
+
+function    auth()
+{
+    return \Core\Kernel\App::get('session')->getUser();
+}

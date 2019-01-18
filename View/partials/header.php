@@ -8,8 +8,14 @@
     <title>Document</title>
 </head>
 <body>
+<?php if (auth()) : ?>
+    welcome <?php print auth()->name ?>
+<?php endif ?>
     <ul>
         <li><a href="/">home</a></li>
+        <?php if (!auth()) : ?>
+            <li><a href="login">login</a></li>
+        <?php endif ?>
         <li><a href="task">task</a></li>
         <li><a href="about">about</a></li>
     </ul>

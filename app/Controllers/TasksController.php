@@ -10,14 +10,17 @@ namespace App\Controller;
 
 use Core\BaseController;
 use Task;
+use User;
 
 class TasksController extends BaseController
 {
     public function index()
     {
-        dd("asd");
-        request()->get();
-        $user = new Task();
+//        dd("asd");
+//        request()->get();
+        $user = new User();
+        dd($user->find(1));
+        dd($user->where('password',123456,'=')->get());
 //        foreach ($user->all()->get() as $item) {
 //            dd($item->task);
 //        }

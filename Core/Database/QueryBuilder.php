@@ -80,7 +80,7 @@ class QueryBuilder
         $this->query .= WHERE
             . $column
             . $action
-            . $value;
+            . "'" . $value . "'";
 
         return $this;
     }

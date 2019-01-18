@@ -10,6 +10,8 @@ use Core\BaseModel;
 
 class User extends BaseModel
 {
+    use Authentic;
+
     public function __construct()
     {
         parent::__construct('users');

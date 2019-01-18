@@ -2,6 +2,7 @@
 
 Main Page
 <hr>
+<hr>
 
 <form method="post" action="/task">
     <input name="_method" type="hidden" value="DELETE" />

@@ -18,7 +18,7 @@ class Request
      * @param array $values
      * @return mixed
      */
-    public function get($values = [])
+    public function get(array $values = [])
     {
         if (empty($values))
             return $_REQUEST;

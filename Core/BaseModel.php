@@ -107,7 +107,6 @@ abstract class BaseModel
             ->where($column, $value, $action);
 
         return $this;
-
     }
 
     /**
@@ -142,4 +141,21 @@ abstract class BaseModel
         return $this->database->table($this->table)
             ->delete($value, $key);
     }
+
+    /**
+     * @return \QueryBuilder
+     */
+    public function getDatabase(): \QueryBuilder
+    {
+        return $this->database;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
 }
