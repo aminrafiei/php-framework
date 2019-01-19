@@ -41,6 +41,29 @@ trait Authentic
     }
 
     /**
+     * @param $request
+     * @return bool
+     */
+    public function register($request)
+    {
+        $user = new User();
+
+        $result = $user->create([
+            'name'     => $request['name'],
+            'username' => $request['username'],
+            'password' => $request['password']
+        ]);
+        $this->user = $this->find($request['username'],'username');
+
+        if ($result) {
+            App::get('session')->login($this->user);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @return string
      */
     public function getUsername(): string

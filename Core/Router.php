@@ -17,6 +17,8 @@ class Router
         'DELETE' => [],
     ];
 
+    protected  static $names = [];
+
     /**
      * @param $uri
      * @param $path

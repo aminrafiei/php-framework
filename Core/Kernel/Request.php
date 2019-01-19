@@ -60,4 +60,9 @@ class Request
     {
         return !empty($_REQUEST[$attribute]);
     }
+
+    public function back()
+    {
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
 }

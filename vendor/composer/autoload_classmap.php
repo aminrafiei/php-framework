@@ -58,6 +58,7 @@ return array(
     'Core\\Kernel\\App' => $baseDir . '/Core/Kernel/App.php',
     'Core\\Kernel\\Request' => $baseDir . '/Core/Kernel/Request.php',
     'Core\\Kernel\\Session' => $baseDir . '/Core/Kernel/Session.php',
+    'Core\\Kernel\\Validation' => $baseDir . '/Core/Kernel/Validation.php',
     'CountConstraint' => $vendorDir . '/phpunit/phpunit/tests/_files/CountConstraint.php',
     'CoverageClassExtendedTest' => $vendorDir . '/phpunit/php-code-coverage/tests/_files/CoverageClassExtendedTest.php',
     'CoverageClassTest' => $vendorDir . '/phpunit/php-code-coverage/tests/_files/CoverageClassTest.php',

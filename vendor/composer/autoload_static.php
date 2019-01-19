@@ -119,6 +119,7 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'Core\\Kernel\\App' => __DIR__ . '/../..' . '/Core/Kernel/App.php',
         'Core\\Kernel\\Request' => __DIR__ . '/../..' . '/Core/Kernel/Request.php',
         'Core\\Kernel\\Session' => __DIR__ . '/../..' . '/Core/Kernel/Session.php',
+        'Core\\Kernel\\Validation' => __DIR__ . '/../..' . '/Core/Kernel/Validation.php',
         'CountConstraint' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/CountConstraint.php',
         'CoverageClassExtendedTest' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/CoverageClassExtendedTest.php',
         'CoverageClassTest' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/CoverageClassTest.php',

@@ -3,7 +3,6 @@
 return [
 
     'database' => [
-
         'name' => 'task',
         'username' => 'root',
         'password' => '',
