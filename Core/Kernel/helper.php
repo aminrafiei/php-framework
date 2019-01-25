@@ -1,5 +1,7 @@
 <?php
 
+use Core\Kernel\App;
+
 /**
  * @param $data
  */
@@ -34,7 +36,7 @@ function view($path, $data = [])
  */
 function request()
 {
-    return \Core\Kernel\App::get('request');
+    return App::get('request');
 }
 
 /**
@@ -42,5 +44,31 @@ function request()
  */
 function auth()
 {
-    return \Core\Kernel\App::get('session')->getUser();
+    return App::get('session')->getUser();
+}
+
+/**
+ * @return mixed
+ */
+function validation()
+{
+    return App::get('validation');
+}
+
+/**
+ * @return mixed
+ */
+function session()
+{
+    return App::get('session');
+}
+
+/**
+ * @param string $message
+ */
+function flashMessage($message = '')
+{
+    if (!empty($message)) {
+        session()->setMessage($message);
+    }
 }

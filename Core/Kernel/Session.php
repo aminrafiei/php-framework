@@ -15,13 +15,50 @@ namespace Core\Kernel;
  */
 class Session
 {
-
+    /**
+     * @var null
+     */
     private static $instance = null;
-
     /**
      * @var bool
      */
     private $logged_in = false;
+
+    /**
+     * @var string
+     */
+    public $message = '';
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        if (isset($_SESSION['message'])) {
+
+            $this->message = $_SESSION['message'];
+            unset($_SESSION['message']);
+            return $this->message;
+        }
+
+        return '';
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage(string $message): void
+    {
+        $this->message = $_SESSION['message'] = $message;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMessage()
+    {
+        return !empty($_SESSION['message']);
+    }
 
     /**
      * @var \User
@@ -37,6 +74,9 @@ class Session
         $this->checkLogin();
     }
 
+    /**
+     * @return Session|null
+     */
     public static function getInstance()
     {
         if (self::$instance == null) {

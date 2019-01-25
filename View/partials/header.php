@@ -11,6 +11,12 @@
 <?php if (auth()) : ?>
     welcome <?php print auth()->name ?>
 <?php endif ?>
+<hr>
+
+<?php if (session()->hasMessage()) : ?>
+    Message : <?php print(session()->getMessage()) ?>
+<?php endif; ?>
+
     <ul>
         <li><a href="/">home</a></li>
         <?php if (!auth()) : ?>

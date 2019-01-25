@@ -4,8 +4,8 @@ return [
 
     'database' => [
         'name' => 'task',
-        'username' => 'root',
-        'password' => '',
+        'username' => 'amin',
+        'password' => '123456',
         'connection' => 'mysql:host=127.0.0.1',
         'options' => '',
     ]

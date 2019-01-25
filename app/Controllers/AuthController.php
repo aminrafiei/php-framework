@@ -9,20 +9,32 @@
 namespace App\Controller;
 
 use Core\BaseController;
-use Core\Kernel\App;
 
+/**
+ * Class AuthController
+ * @package App\Controller
+ */
 class AuthController extends BaseController
 {
+    /**
+     * @return view
+     */
     public function showLogin()
     {
         return view('login');
     }
 
+    /**
+     * @return view
+     */
     public function showRegister()
     {
         return view('register');
     }
 
+    /**
+     * user login
+     */
     public function login()
     {
         $username = trim(request()->get(['username']));
@@ -37,23 +49,26 @@ class AuthController extends BaseController
         return redirect('login');
     }
 
+    /**
+     * user register
+     */
     public function register()
     {
         $request = request()->get();
 
-        $validate = App::get('validation')->validate($request, [
+        $validation = validation()->validate($request, [
             'name'     => ['required'],
             'username' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        if (!is_bool($validate)){
-            dd([$validate,'asd']);
-        }
-        dd($validate);
 
+        if(!$validation){
+            return request()->back();
+        }
 
         $user = new \User();
         if ($user->register($request)) {
+            flashMessage('Successfully Created');
             return redirect('/');
         }
 

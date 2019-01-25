@@ -5,7 +5,7 @@ use Core\Kernel\Request;
 use Core\Kernel\Session;
 use Core\Kernel\Validation;
 
-require 'functions.php';
+require 'helper.php';
 
 App::bind('config',require 'config.php');
 App::bind('request', new Request());

@@ -43,7 +43,8 @@ class Validation
             foreach ($rules as $key => $value) {
                 foreach ($value as $item) {
                     if (!$this->$item($key)) {
-                        return request()->back();
+                        flashMessage($this->getMessage());
+                        return false;
                     };
                 }
             }
