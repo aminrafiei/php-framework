@@ -248,6 +248,7 @@ return array(
     'MultiDependencyTest' => $vendorDir . '/phpunit/phpunit/tests/_files/MultiDependencyTest.php',
     'MultipleDataProviderTest' => $vendorDir . '/phpunit/phpunit/tests/_files/MultipleDataProviderTest.php',
     'MyCommand' => $vendorDir . '/phpunit/phpunit/tests/_files/MyCommand.php',
+    'MySqlQueryBuilder' => $baseDir . '/Core/Database/MySql/MySqlQueryBuilder.php',
     'MyTestListener' => $vendorDir . '/phpunit/phpunit/tests/_files/MyTestListener.php',
     'My\\Space\\ExceptionNamespaceTest' => $vendorDir . '/phpunit/phpunit/tests/_files/ExceptionNamespaceTest.php',
     'NamedConstraint' => $vendorDir . '/phpunit/phpunit/tests/_files/NamedConstraint.php',

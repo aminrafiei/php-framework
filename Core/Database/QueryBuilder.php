@@ -6,68 +6,29 @@
  * Time: 10:07 AM
  */
 
-require 'MySqlQuery.php';
 
 /**
  * Class QueryBuilder
  */
-class QueryBuilder
+interface QueryBuilder
 {
-    /**
-     * @var PDO
-     */
-    protected $pdo;
-
-    /**
-     * @var string
-     */
-    private $table;
-
-    /**
-     * @var string
-     */
-    private $query;
-
-    /**
-     * @var
-     */
-    private $queryPre;
-
     /**
      * QueryBuilder constructor.
      * @param PDO $pdo
      */
-    public function __construct(PDO $pdo)
-    {
-        $this->pdo = $pdo;
-    }
+    public function __construct(PDO $pdo);
 
     /**
      * @param $table
      * @return $this
      */
-    public function table($table)
-    {
-        $this->table = $table;
-
-        return $this;
-    }
+    public function table($table);
 
     /**
      * @param array $attributes
      * @return $this
      */
-    public function select(array $attributes = ['*'])
-    {
-        $column = join(", ", $attributes);
-
-        $this->query = SELECT
-            . $column
-            . FROM
-            . $this->table;
-
-        return $this;
-    }
+    public function select(array $attributes = ['*']);
 
     /**
      * @param $column
@@ -75,38 +36,14 @@ class QueryBuilder
      * @param string $action
      * @return $this
      */
-    public function where($column, $value, $action = '=')
-    {
-        $this->query .= WHERE
-            . $column
-            . $action
-            . "'" . $value . "'";
-
-        return $this;
-    }
+    public function where($column, $value, $action = '=');
 
     /**
      * @param array $columns
      * @param array $values
      * @return bool
      */
-    public function insert(array $columns, array $values)
-    {
-        $joinColumns = join(', ', $columns);
-        $valueColumns = array_map(function ($columns) {
-            return ":" . $columns;
-        }, $columns);
-
-        $joinValues = join(', ', $valueColumns);
-
-        $this->query = INSERT
-            . $this->table
-            . " ($joinColumns)"
-            . VALUES
-            . "($joinValues)";
-
-        return $this->set(array_combine($columns, $values));
-    }
+    public function insert(array $columns, array $values);
 
     /**
      * @param $columns
@@ -114,57 +51,23 @@ class QueryBuilder
      * @param string $key
      * @return bool
      */
-    public function update(array $columns, $value, $key = 'id')
-    {
-        $data = array_map(function ($columns, $values) {
-            return "$columns=$values";
-
-        }, array_keys($columns), array_values($columns));
-
-        $data = join(', ', $data);
-
-        $this->query = UPDATE
-            . $this->table
-            . SET
-            . $data
-            . WHERE
-            . $key . '=' . $value;
-
-        return $this->set();
-    }
+    public function update(array $columns, $value, $key = 'id');
 
     /**
      * @param $value
      * @param string $key
      * @return bool
      */
-    public function delete($value, $key)
-    {
-        $this->query = DELETE
-            . $this->table
-            . WHERE
-            . $key . '=' . $value;
-
-        return $this->set();
-    }
+    public function delete($value, $key);
 
     /**
      * @param array $data
      * @return bool
      */
-    protected function set($data = [])
-    {
-        $this->queryPre = $this->pdo->prepare($this->query);
-        return $this->queryPre->execute($data);
-    }
-
+    public function set($data = []);
 
     /**
      * @return array
      */
-    public function get()
-    {
-        $this->set();
-        return $this->queryPre->fetchAll(PDO::FETCH_CLASS);
-    }
+    public function get();
 }

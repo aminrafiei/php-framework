@@ -6,8 +6,6 @@
  * Time: 11:54 AM
  */
 
-use Core\Kernel\App;
-
 /**
  * Trait Authentic
  */
@@ -33,7 +31,7 @@ trait Authentic
         if ($this->find($username, $this->getUsername()) &&
             $this->user = $this->find($password, 'password')
         ) {
-            App::get('session')->login($this->user);
+            session()->login($this->user);
             return true;
         }
 
@@ -56,7 +54,7 @@ trait Authentic
         $this->user = $this->find($request['username'],'username');
 
         if ($result) {
-            App::get('session')->login($this->user);
+            session()->login($this->user);
             return true;
         }
 

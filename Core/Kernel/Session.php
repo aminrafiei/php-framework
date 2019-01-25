@@ -30,6 +30,11 @@ class Session
     public $message = '';
 
     /**
+     * @var \User
+     */
+    private $user;
+
+    /**
      * @return string
      */
     public function getMessage(): string
@@ -59,11 +64,6 @@ class Session
     {
         return !empty($_SESSION['message']);
     }
-
-    /**
-     * @var \User
-     */
-    private $user;
 
     /**
      * Session constructor.

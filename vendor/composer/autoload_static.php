@@ -309,6 +309,7 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'MultiDependencyTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/MultiDependencyTest.php',
         'MultipleDataProviderTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/MultipleDataProviderTest.php',
         'MyCommand' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/MyCommand.php',
+        'MySqlQueryBuilder' => __DIR__ . '/../..' . '/Core/Database/MySql/MySqlQueryBuilder.php',
         'MyTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/MyTestListener.php',
         'My\\Space\\ExceptionNamespaceTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/ExceptionNamespaceTest.php',
         'NamedConstraint' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/NamedConstraint.php',

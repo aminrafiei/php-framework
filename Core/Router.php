@@ -17,6 +17,9 @@ class Router
         'DELETE' => [],
     ];
 
+    /**
+     * @var array
+     */
     protected  static $names = [];
 
     /**
@@ -62,7 +65,6 @@ class Router
         }
 
         return new Exception();
-
     }
 
     /**
@@ -73,6 +75,11 @@ class Router
         return self::$route;
     }
 
+    /**
+     * @param $controller
+     * @param $action
+     * @return Exception
+     */
     public static function doAction($controller, $action)
     {
         $pathController = "App\Controller\\".$controller;
@@ -81,7 +88,6 @@ class Router
         if(!method_exists($controller,$action)){
             return new Exception('no');
         }
-
 
         return $controller->$action();
     }

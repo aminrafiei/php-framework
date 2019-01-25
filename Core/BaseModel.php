@@ -8,7 +8,7 @@
 
 namespace Core;
 
-require_once 'Database/MySqlQuery.php';
+require_once 'Database/MySql/MySqlQuery.php';
 
 use Core\Kernel\App;
 
