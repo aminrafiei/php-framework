@@ -1,4 +1,18 @@
 {
+  "name": "aminrafiei/php-framework",
+  "license": "MIT",
+  "description": "A lightweight PHP micro-framework",
+  "keywords": [
+    "PHP Framework",
+    "PHP micro-Framework",
+    "PHP"
+  ],
+  "authors": [
+    {
+      "name": "Amin Rafiei",
+      "email": "amin.amin111@yahoo.com"
+    }
+  ],
   "autoload": {
     "classmap":[
       "./"
@@ -6,5 +20,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5"
+  },
+  "require": {
+    "twig/twig": "^2.0"
   }
 }

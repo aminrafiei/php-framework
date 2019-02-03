@@ -10,13 +10,27 @@ namespace App\Controller;
 
 use Core\BaseController;
 
+/**
+ * Class PagesController
+ * @package App\Controller
+ */
 class PagesController extends BaseController
 {
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function home()
     {
-        return view('home');
+        return view('layout');
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function about()
     {
         return view('about');
