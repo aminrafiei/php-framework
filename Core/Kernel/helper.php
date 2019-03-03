@@ -47,12 +47,17 @@ function view($path, $data = [])
 //    require 'View/'.$path.'.view.php';
 }
 
+function app()
+{
+    return App::instance();
+}
+
 /**
  * @return mixed
  */
 function request()
 {
-    return App::get('request');
+    return app()->get('request');
 }
 
 /**
@@ -60,7 +65,7 @@ function request()
  */
 function auth()
 {
-    return App::get('session')->getUser();
+    return app()->get('session')->getUser();
 }
 
 /**
@@ -68,7 +73,7 @@ function auth()
  */
 function validation()
 {
-    return App::get('validation');
+    return app()->get('validation');
 }
 
 /**
@@ -76,7 +81,7 @@ function validation()
  */
 function session()
 {
-    return App::get('session');
+    return app()->get('session');
 }
 
 /**

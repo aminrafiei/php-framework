@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
+use User;
 
 /**
  * Class AuthController
@@ -16,8 +17,17 @@ use Core\BaseController;
  */
 class AuthController extends BaseController
 {
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     /**
-     * @return view
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function showLogin()
     {
@@ -25,7 +35,9 @@ class AuthController extends BaseController
     }
 
     /**
-     * @return view
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function showRegister()
     {
@@ -40,9 +52,7 @@ class AuthController extends BaseController
         $username = trim(request()->get(['username']));
         $password = trim(request()->get(['password']));
 
-        $user = new \User();
-
-        if ($user->auth($username, $password)) {
+        if ($this->user->auth($username, $password)) {
             return redirect('/');
         }
 
@@ -66,8 +76,7 @@ class AuthController extends BaseController
             return request()->back();
         }
 
-        $user = new \User();
-        if ($user->register($request)) {
+        if ($this->user->register($request)) {
             flashMessage('Successfully Created');
             return redirect('/');
         }

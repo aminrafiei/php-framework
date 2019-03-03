@@ -9,6 +9,8 @@
 namespace App\Controller;
 
 use Core\BaseController;
+use TestService;
+use User;
 
 /**
  * Class PagesController
@@ -16,6 +18,13 @@ use Core\BaseController;
  */
 class PagesController extends BaseController
 {
+    public $test;
+
+    public function __construct(TestService $testService, User $user)
+    {
+        $this->test = $testService;
+    }
+
     /**
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime

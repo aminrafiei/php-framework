@@ -1,16 +1,15 @@
 <?php
 
-use Core\Kernel\App;
 use Core\Kernel\Request;
 use Core\Kernel\Session;
 use Core\Kernel\Validation;
 
 require 'helper.php';
 
-App::bind('config',require 'config.php');
-App::bind('request', new Request());
-App::bind('session', Session::getInstance());
-App::bind('validation', new Validation());
-App::bind('database', new MySqlQueryBuilder(
-    Connection::make(App::get('config')['database'])
+app()->bind('config',require 'config.php');
+app()->bind('request', new Request());
+app()->bind('session', Session::getInstance());
+app()->bind('validation', new Validation());
+app()->bind('database', new MySqlQueryBuilder(
+    Connection::make(app()->get('config')['database'])
 ));

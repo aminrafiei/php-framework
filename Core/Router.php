@@ -53,6 +53,7 @@ class Router
      * @param $uri
      * @param $method
      * @return Exception
+     * @throws ReflectionException
      */
     public static function redirect($uri, $method)
     {
@@ -79,11 +80,13 @@ class Router
      * @param $controller
      * @param $action
      * @return Exception
+     * @throws ReflectionException
      */
     public static function doAction($controller, $action)
     {
-        $pathController = "App\Controller\\".$controller;
-        $controller = new $pathController;
+        $controller = "App\Controller\\".$controller;
+
+        app()->resolveDependency($controller);
 
         if(!method_exists($controller,$action)){
             return new Exception('no');

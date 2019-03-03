@@ -1,8 +1,10 @@
 <?php
 
+use Core\Kernel\App;
 require 'vendor/autoload.php';
 
 require 'Core/Kernel/bootstrap.php';
 require 'routes/routes.php';
 
-Router::redirect(request()->uri(), request()->method());
+$app = App::instance();
+$app->handle();

@@ -8,5 +8,13 @@
 
 class TestService
 {
+    public function __construct(User $user)
+    {
 
+    }
+
+    public function test()
+    {
+        return 'test';
+    }
 }

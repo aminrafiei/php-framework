@@ -19,6 +19,7 @@ class Session
      * @var null
      */
     private static $instance = null;
+
     /**
      * @var bool
      */

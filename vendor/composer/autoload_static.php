@@ -8,8 +8,8 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -41,8 +41,8 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -247,14 +247,14 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'FailureTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/FailureTest.php',
         'FalsyConstraint' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/FalsyConstraint.php',
         'FatalTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/FatalTest.php',
-        'Foo' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/source_without_namespace.php',
+        'Foo' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/source_with_oneline_annotations.php',
         'FooInterface' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/source_with_oneline_annotations.php',
         'FooObject' => __DIR__ . '/..' . '/twig/twig/test/Twig/Tests/Extension/SandboxTest.php',
         'Foo\\BarScoped\\TestClass' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/classInScopedNamespace.php',
         'Foo\\Bar\\Baz' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/classExtendsNamespacedClass.php',
         'Foo\\Bar\\TestClass' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/classInNamespace.php',
-        'Foo\\Bar\\TestClassInBar' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/multipleNamespacesWithOneClassUsingNonBraceSyntax.php',
-        'Foo\\Baz\\TestClassInBaz' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/multipleNamespacesWithOneClassUsingNonBraceSyntax.php',
+        'Foo\\Bar\\TestClassInBar' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/multipleNamespacesWithOneClassUsingBraces.php',
+        'Foo\\Baz\\TestClassInBaz' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/multipleNamespacesWithOneClassUsingBraces.php',
         'Foo\\CoveredClass' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/NamespaceCoveredClass.php',
         'Foo\\CoveredParentClass' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/NamespaceCoveredClass.php',
         'Foo\\DataProviderIssue2833\\FirstTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/DataProviderIssue2833/FirstTest.php',
@@ -1716,10 +1716,12 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'WasRun' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/WasRun.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'WrapperIteratorAggregate' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/WrapperIteratorAggregate.php',
-        'a' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/source5.php',
+        '__TwigTemplate_26345a836fae6f96108b08d9da0bc74207a8316aea0f58717a30c081e0ce72f8' => __DIR__ . '/../..' . '/View/cache/b9/b99318008dbd710992b5924efa423ca9738b7aa4d918ee166f8b8a81f82f30ff.php',
+        '__TwigTemplate_95cf2cc9d6b786c169c1eb230987dc84e9da66cca772903aae395b08d20de7cb' => __DIR__ . '/../..' . '/View/cache/67/6746999f6b25f4415b2424e8a0b45682cb9f510a0328859cf51fa15dce3e1bc0.php',
+        'a' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/source4.php',
         'b' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/source4.php',
         'bar\\baz\\source_with_namespace' => __DIR__ . '/..' . '/phpunit/php-code-coverage/tests/_files/source_with_namespace.php',
-        'c' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/source5.php',
+        'c' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/source4.php',
         'class_with_method_named_empty' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/class_with_method_named_empty.php',
         'class_with_method_that_declares_anonymous_class' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/class_with_method_that_declares_anonymous_class.php',
         'class_with_multiple_anonymous_classes_and_functions' => __DIR__ . '/..' . '/phpunit/php-token-stream/tests/_fixture/class_with_multiple_anonymous_classes_and_functions.php',

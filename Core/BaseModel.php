@@ -10,8 +10,6 @@ namespace Core;
 
 require_once 'Database/MySql/MySqlQuery.php';
 
-use Core\Kernel\App;
-
 /**
  * Class BaseModel
  * @package Core
@@ -44,7 +42,7 @@ abstract class BaseModel
      */
     public function __construct($table)
     {
-        $this->database = App::get('database');
+        $this->database = app()->get('database');
         $this->table = $table;
     }
 
