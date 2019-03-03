@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
+use testInterface;
 use TestService;
 use User;
 
@@ -20,7 +21,7 @@ class PagesController extends BaseController
 {
     public $test;
 
-    public function __construct(TestService $testService, User $user)
+    public function __construct(TestService $testService, User $user)//, testInterface $yeah)
     {
         $this->test = $testService;
     }
@@ -32,6 +33,7 @@ class PagesController extends BaseController
      */
     public function home()
     {
+        dd($this->test->user->first());
         return view('layout');
     }
 

@@ -57,7 +57,7 @@ class App
     }
 
     /**
-     * handle request
+     * @throws \ReflectionException
      */
     private function handleRequest()
     {
@@ -69,43 +69,62 @@ class App
 
     /**
      * @param $class
-     * @return void
+     * @return mixed
      * @throws \ReflectionException
      */
     public function resolveDependency(&$class)
     {
         $ref = new ReflectionClass($class);
+
         $result = [];
 
         if (!is_null($con = $ref->getConstructor())) {
 
             if (!empty($params = $con->getParameters())) {
+
                 foreach ($params as $param) {
 
+                    try {
                         $cls = $param->getClass();
 
-                        if (!is_null($cls->getConstructor()) && !empty($cls->getConstructor()->getParameters())){
-                            $this->resolveDependency($cls->name);
+                        if (
+                            !is_null($cls->getConstructor())
+                            && !empty($cls->getConstructor()->getParameters())
+                        ) {
+                            $option = $this->resolveDependency($cls->name);
                         }
 
-                        var_dump([$class,$cls]);
-                        $result[] = $this->make($cls->name);
+                        $result[] = $this->make($cls->name, $option ?? []);
+                    } catch (\ReflectionException $e) {
+
+                        $this->checkInterface($param);
+
+                    }
                 }
             }
         }
-
         $class = (new $class(...$result));
+
+        return $result;
     }
 
+    /**
+     * @param $param
+     */
+    private function checkInterface($param)
+    {
+        dd("its interface !");
+    }
 
     /**
      * @param $class
+     * @param array $option
      * @return mixed
      */
-    public function make($class)
+    public function make($class, $option = [])
     {
         if (!in_array($class, $this->register)) {
-            $this->bind($class, new $class);
+            $this->bind($class, new $class(...$option));
         }
 
         return $this->get($class);
@@ -117,6 +136,10 @@ class App
      */
     public function bind($key, $value)
     {
+        if (is_object($key)) {
+            $key = get_class($key);
+        }
+
         $this->register[$key] = $value;
     }
 
@@ -126,6 +149,10 @@ class App
      */
     public function get($key)
     {
+        if (is_object($key)) {
+            $key = get_class($key);
+        }
+
         return $this->register[$key];
     }
 }

@@ -8,9 +8,11 @@
 
 class TestService
 {
+    public $user;
+
     public function __construct(User $user)
     {
-
+       $this->user = $user->all();
     }
 
     public function test()
