@@ -6,6 +6,8 @@
  * Time: 11:54 AM
  */
 
+namespace Core;
+
 /**
  * Trait Authentic
  */

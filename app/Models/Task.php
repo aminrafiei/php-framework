@@ -6,6 +6,8 @@
  * Time: 8:43 PM
  */
 
+namespace App\Models;
+
 use Core\BaseModel;
 
 class Task extends BaseModel

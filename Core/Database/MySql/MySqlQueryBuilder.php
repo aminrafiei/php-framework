@@ -6,6 +6,11 @@
  * Time: 9:24 PM
  */
 
+namespace Core\Database\MySql;
+
+use Core\Database\QueryBuilder;
+use PDO;
+
 require_once 'MySqlQuery.php';
 
 class MySqlQueryBuilder implements QueryBuilder

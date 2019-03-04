@@ -1,5 +1,7 @@
 <?php
 
+use Core\Router;
+
 Router::get('','PagesController@home');
 Router::get('about','PagesController@about');
 Router::get('task','TasksController@index');

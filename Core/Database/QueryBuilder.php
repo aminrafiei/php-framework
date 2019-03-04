@@ -6,6 +6,9 @@
  * Time: 10:07 AM
  */
 
+namespace Core\Database;
+
+use PDO;
 
 /**
  * Class QueryBuilder

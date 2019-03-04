@@ -20,15 +20,16 @@ class Request
      */
     public function get(array $values = [])
     {
-        if (empty($values))
+        if (empty($values)) {
             return $_REQUEST;
-        else {
-            $res = null;
+        } else {
+            $result = null;
+
             foreach ($values as $value) {
-                $res .= $_REQUEST[$value];
+                $result .= $_REQUEST[$value];
             }
 
-            return $res;
+            return $result;
         }
     }
 
@@ -37,7 +38,7 @@ class Request
      */
     public function uri()
     {
-        return trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
+        return trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
     }
 
     /**
@@ -61,6 +62,9 @@ class Request
         return !empty($_REQUEST[$attribute]);
     }
 
+    /**
+     * redirect back
+     */
     public function back()
     {
         return redirect($_SERVER['HTTP_REFERER']);

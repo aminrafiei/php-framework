@@ -6,6 +6,9 @@
  * Time: 11:30 PM
  */
 
+namespace App\Models;
+
+use Core\Authentic;
 use Core\BaseModel;
 
 class User extends BaseModel

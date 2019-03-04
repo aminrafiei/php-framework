@@ -8,8 +8,9 @@
 
 namespace Core\Kernel;
 
+use Core\Router;
 use ReflectionClass;
-use Router;
+use ReflectionException;
 
 /**
  * Class App
@@ -57,7 +58,7 @@ class App
     }
 
     /**
-     * @throws \ReflectionException
+     *
      */
     private function handleRequest()
     {
@@ -77,33 +78,36 @@ class App
         $ref = new ReflectionClass($class);
 
         $result = [];
-
         if (!is_null($con = $ref->getConstructor())) {
 
             if (!empty($params = $con->getParameters())) {
 
                 foreach ($params as $param) {
-
                     try {
-                        $cls = $param->getClass();
 
-                        if (
-                            !is_null($cls->getConstructor())
-                            && !empty($cls->getConstructor()->getParameters())
-                        ) {
-                            $option = $this->resolveDependency($cls->name);
+                        if (!is_null($cls = $param->getClass())) {
+
+                            if (
+                                !is_null($cls->getConstructor())
+                                && !empty($par = $cls->getConstructor()->getParameters())
+                            ) {
+                                $option = $this->resolveDependency($cls->name);
+                            }
+
+                            $result[] = $this->make($cls->name, $option ?? []);
                         }
 
-                        $result[] = $this->make($cls->name, $option ?? []);
                     } catch (\ReflectionException $e) {
 
+                        var_dump($e->getMessage());
                         $this->checkInterface($param);
 
                     }
                 }
             }
         }
-        $class = (new $class(...$result));
+
+        $class = $this->makeInstance($class, $result);
 
         return $result;
     }
@@ -113,7 +117,17 @@ class App
      */
     private function checkInterface($param)
     {
-        dd("its interface !");
+        var_dump("its interface !");
+    }
+
+    /**
+     * @param $class
+     * @param array $option
+     * @return mixed
+     */
+    private function makeInstance($class, $option = [])
+    {
+        return (new $class(...$option));
     }
 
     /**
@@ -141,6 +155,21 @@ class App
         }
 
         $this->register[$key] = $value;
+    }
+
+    /**
+     * @param $key
+     * @param $class
+     */
+    public function register($key, $class)
+    {
+        try {
+            $this->resolveDependency($class);
+        } catch (ReflectionException $e) {
+            dd($e->getMessage());
+        }
+
+        $this->bind($key, $class);
     }
 
     /**

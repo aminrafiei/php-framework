@@ -8,10 +8,9 @@
 
 namespace App\Controller;
 
+use App\Models\User;
 use Core\BaseController;
-use testInterface;
 use TestService;
-use User;
 
 /**
  * Class PagesController
@@ -27,20 +26,21 @@ class PagesController extends BaseController
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * view
      */
     public function home()
     {
+        //TODO : fix bug
+        dd(cache()->remember('fff',function (){
+            return $this->test->user->first();
+        },999));
+
         dd($this->test->user->first());
         return view('layout');
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * view
      */
     public function about()
     {
