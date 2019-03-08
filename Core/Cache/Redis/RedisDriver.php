@@ -41,7 +41,7 @@ class RedisDriver implements Cache
         $this->redis->setex(
             $key,
             $minutes,
-            (is_callable($value) ? $value = call_user_func($value) : serialize($value))
+            (is_callable($value) ? serialize($value = call_user_func($value)) : serialize($value))
         );
 
         return $value;
@@ -53,7 +53,7 @@ class RedisDriver implements Cache
      */
     public function put($key, $value)
     {
-        $this->redis->set($key, json_encode($value));
+        $this->redis->set($key, serialize($value));
     }
 
     /**
@@ -62,6 +62,6 @@ class RedisDriver implements Cache
      */
     public function get($key)
     {
-        return $this->redis->get($key);
+        return unserialize($this->redis->get($key));
     }
 }

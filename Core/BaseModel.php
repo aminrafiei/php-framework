@@ -8,6 +8,8 @@
 
 namespace Core;
 
+use Core\Database\QueryBuilder;
+
 require_once 'Database/MySql/MySqlQuery.php';
 
 /**
@@ -22,7 +24,7 @@ abstract class BaseModel
     protected $attributes;
 
     /**
-     * @var \QueryBuilder
+     * @var QueryBuilder
      */
     protected $database;
 
@@ -141,9 +143,9 @@ abstract class BaseModel
     }
 
     /**
-     * @return \QueryBuilder
+     * @return QueryBuilder
      */
-    public function getDatabase(): \QueryBuilder
+    public function getDatabase(): QueryBuilder
     {
         return $this->database;
     }

@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Models\User;
+use App\Services\testInterface;
 use Core\BaseController;
 use TestService;
 
@@ -20,9 +21,9 @@ class PagesController extends BaseController
 {
     public $test;
 
-    public function __construct(TestService $testService, User $user)//, testInterface $yeah)
+    public function __construct(TestService $testService, User $user, testInterface $yeah)
     {
-        $this->test = $testService;
+        $this->test = $yeah;
     }
 
     /**
@@ -30,12 +31,11 @@ class PagesController extends BaseController
      */
     public function home()
     {
-        //TODO : fix bug
-        dd(cache()->remember('fff',function (){
-            return $this->test->user->first();
-        },999));
-
-        dd($this->test->user->first());
+//        dd(cache()->remember('test',function (){
+//            return $this->test->user->first();
+//        },999));
+//
+//        dd($this->test->user->first());
         return view('layout');
     }
 

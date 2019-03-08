@@ -18,6 +18,8 @@ return array(
     'App\\Controller\\TasksController' => $baseDir . '/app/Controllers/TasksController.php',
     'App\\Models\\Task' => $baseDir . '/app/Models/Task.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Services\\NewTestService' => $baseDir . '/app/Services/NewTestService.php',
+    'App\\Services\\testInterface' => $baseDir . '/app/Services/testInterface.php',
     'ArrayAccessible' => $vendorDir . '/phpunit/phpunit/tests/_files/ArrayAccessible.php',
     'AssertionExample' => $vendorDir . '/phpunit/phpunit/tests/_files/AssertionExample.php',
     'AssertionExampleTest' => $vendorDir . '/phpunit/phpunit/tests/_files/AssertionExampleTest.php',
@@ -69,6 +71,7 @@ return array(
     'Core\\Kernel\\Request' => $baseDir . '/Core/Kernel/Request.php',
     'Core\\Kernel\\Session' => $baseDir . '/Core/Kernel/Session.php',
     'Core\\Kernel\\Validation' => $baseDir . '/Core/Kernel/Validation.php',
+    'Core\\Kernel\\bootstrap' => $baseDir . '/Core/Kernel/bootstrap.php',
     'Core\\Router' => $baseDir . '/Core/Router.php',
     'CorruptCache' => $vendorDir . '/twig/twig/test/Twig/Tests/EnvironmentTest.php',
     'CountConstraint' => $vendorDir . '/phpunit/phpunit/tests/_files/CountConstraint.php',
@@ -1997,6 +2000,5 @@ return array(
     'phpDocumentor\\Reflection\\Types\\String_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/String_.php',
     'phpDocumentor\\Reflection\\Types\\This' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/This.php',
     'phpDocumentor\\Reflection\\Types\\Void_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/Void_.php',
-    'testInterface' => $baseDir . '/app/Services/testInterface.php',
     'vendor\\project\\StatusTest' => $vendorDir . '/phpunit/phpunit/tests/_files/StatusTest.php',
 );

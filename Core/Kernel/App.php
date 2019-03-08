@@ -8,6 +8,12 @@
 
 namespace Core\Kernel;
 
+require 'helper.php';
+
+use Core\Cache\Cache;
+use Core\Cache\Redis\RedisDriver;
+use Core\Database\Connection;
+use Core\Database\MySql\MySqlQueryBuilder;
 use Core\Router;
 use ReflectionClass;
 use ReflectionException;
@@ -29,13 +35,6 @@ class App
     public static $instance;
 
     /**
-     * App constructor.
-     */
-    private function __construct()
-    {
-    }
-
-    /**
      * @return App
      */
     public static function instance()
@@ -52,8 +51,7 @@ class App
      */
     public function handle()
     {
-        $this->bind('app', $this);
-
+        $this->bootstrap();
         $this->handleRequest();
     }
 
@@ -69,6 +67,62 @@ class App
     }
 
     /**
+     *
+     */
+    private function bootstrap()
+    {
+        $this->bind('config', require 'config.php');
+
+        $binds = [
+            'app'      => self::$instance,
+            'database' => new MySqlQueryBuilder(Connection::make()),
+            'session'  => Session::getInstance(),
+        ];
+
+        $registers = [
+            'request'    => Request::class,
+            'validation' => Validation::class,
+            'cache'      => RedisDriver::class,
+        ];
+
+        $this->resolveBootstrap($binds, $registers);
+    }
+
+    /**
+     * @param $binds
+     * @param $registers
+     */
+    private function resolveBootstrap($binds, $registers)
+    {
+        $binds = array_merge(bootstrap::$binds, $binds);
+        $registers = array_merge(bootstrap::$registers, $registers);
+
+        $this->resolveBinds($binds);
+        $this->resolveRegisters($registers);
+    }
+
+
+    /**
+     * @param $binds
+     */
+    private function resolveBinds($binds)
+    {
+        foreach ($binds as $key => $value) {
+            $this->bind($key, $value);
+        }
+    }
+
+    /**
+     * @param $registers
+     */
+    private function resolveRegisters($registers)
+    {
+        foreach ($registers as $key => $value) {
+            $this->register($key, $value);
+        }
+    }
+
+    /**
      * @param $class
      * @return mixed
      * @throws \ReflectionException
@@ -78,31 +132,16 @@ class App
         $ref = new ReflectionClass($class);
 
         $result = [];
-        if (!is_null($con = $ref->getConstructor())) {
 
-            if (!empty($params = $con->getParameters())) {
+        if (!is_null($con = $ref->getConstructor()) && !empty($params = $con->getParameters())) {
 
-                foreach ($params as $param) {
-                    try {
+            foreach ($params as $param) {
+                try {
 
-                        if (!is_null($cls = $param->getClass())) {
+                    $result[] = $this->makeDependency($param);
 
-                            if (
-                                !is_null($cls->getConstructor())
-                                && !empty($par = $cls->getConstructor()->getParameters())
-                            ) {
-                                $option = $this->resolveDependency($cls->name);
-                            }
-
-                            $result[] = $this->make($cls->name, $option ?? []);
-                        }
-
-                    } catch (\ReflectionException $e) {
-
-                        var_dump($e->getMessage());
-                        $this->checkInterface($param);
-
-                    }
+                } catch (\ReflectionException $e) {
+                    dd($e->getMessage());
                 }
             }
         }
@@ -113,11 +152,25 @@ class App
     }
 
     /**
-     * @param $param
+     * @param \ReflectionParameter $parameters
+     * @return mixed
+     * @throws ReflectionException
      */
-    private function checkInterface($param)
+    private function makeDependency(\ReflectionParameter $parameters)
     {
-        var_dump("its interface !");
+        if (!is_null($class = $parameters->getClass())) {
+
+            if (
+                !is_null($class->getConstructor())
+                && !empty($class->getConstructor()->getParameters())
+            ) {
+                $option = $this->resolveDependency($class->name);
+            }
+
+            return $this->make($class->name, $option ?? []);
+        }
+
+        return null;
     }
 
     /**
@@ -137,7 +190,7 @@ class App
      */
     public function make($class, $option = [])
     {
-        if (!in_array($class, $this->register)) {
+        if (is_null($this->register[$class])) {
             $this->bind($class, new $class(...$option));
         }
 

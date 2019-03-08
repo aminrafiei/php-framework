@@ -13,10 +13,10 @@ interface Cache
     /**
      * @param $key
      * @param $value
-     * @param $time0
+     * @param $time
      * @return mixed
      */
-    public function remember($key, $value, $time0);
+    public function remember($key, $value, $time);
 
     /**
      * @param $key

@@ -8,6 +8,8 @@
 
 namespace Core;
 
+use App\Models\User;
+
 /**
  * Trait Authentic
  */
@@ -23,6 +25,7 @@ trait Authentic
      */
     private $user = null;
 
+    // TODO : Fix this and ORM
     /**
      * @param $username
      * @param $password

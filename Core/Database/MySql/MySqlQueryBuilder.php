@@ -168,4 +168,13 @@ class MySqlQueryBuilder implements QueryBuilder
         $this->set();
         return $this->queryPre->fetchAll(PDO::FETCH_CLASS);
     }
+
+    /**
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
 }

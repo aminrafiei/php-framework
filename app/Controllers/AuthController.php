@@ -8,8 +8,8 @@
 
 namespace App\Controller;
 
+use App\Models\User;
 use Core\BaseController;
-use User;
 
 /**
  * Class AuthController
@@ -25,9 +25,6 @@ class AuthController extends BaseController
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function showLogin()
     {
@@ -35,9 +32,6 @@ class AuthController extends BaseController
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function showRegister()
     {

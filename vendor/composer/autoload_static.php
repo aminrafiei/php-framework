@@ -108,6 +108,8 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'App\\Controller\\TasksController' => __DIR__ . '/../..' . '/app/Controllers/TasksController.php',
         'App\\Models\\Task' => __DIR__ . '/../..' . '/app/Models/Task.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Services\\NewTestService' => __DIR__ . '/../..' . '/app/Services/NewTestService.php',
+        'App\\Services\\testInterface' => __DIR__ . '/../..' . '/app/Services/testInterface.php',
         'ArrayAccessible' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/ArrayAccessible.php',
         'AssertionExample' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/AssertionExample.php',
         'AssertionExampleTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/AssertionExampleTest.php',
@@ -159,6 +161,7 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'Core\\Kernel\\Request' => __DIR__ . '/../..' . '/Core/Kernel/Request.php',
         'Core\\Kernel\\Session' => __DIR__ . '/../..' . '/Core/Kernel/Session.php',
         'Core\\Kernel\\Validation' => __DIR__ . '/../..' . '/Core/Kernel/Validation.php',
+        'Core\\Kernel\\bootstrap' => __DIR__ . '/../..' . '/Core/Kernel/bootstrap.php',
         'Core\\Router' => __DIR__ . '/../..' . '/Core/Router.php',
         'CorruptCache' => __DIR__ . '/..' . '/twig/twig/test/Twig/Tests/EnvironmentTest.php',
         'CountConstraint' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/CountConstraint.php',
@@ -2087,7 +2090,6 @@ class ComposerStaticInit6dd8954e3d93bac843e46c140f8aa2fa
         'phpDocumentor\\Reflection\\Types\\String_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/String_.php',
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
-        'testInterface' => __DIR__ . '/../..' . '/app/Services/testInterface.php',
         'vendor\\project\\StatusTest' => __DIR__ . '/..' . '/phpunit/phpunit/tests/_files/StatusTest.php',
     );
 

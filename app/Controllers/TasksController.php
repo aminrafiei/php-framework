@@ -8,19 +8,30 @@
 
 namespace App\Controller;
 
+use App\Models\User;
 use Core\BaseController;
 use Task;
-use User;
 
 class TasksController extends BaseController
 {
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     public function index()
     {
 //        dd("asd");
 //        request()->get();
-        $user = new User();
-        dd($user->find(1));
-        dd($user->where('password',123456,'=')->get());
+//        dd($this->user->find(1)->password);
+
+            $this->user->where('password', 123456, '=')->where('name','b','=');
+//            dd($this->user->data);
+//            ->where('name', 'b', '=')
+//            ->get();
+
 //        foreach ($user->all()->get() as $item) {
 //            dd($item->task);
 //        }
