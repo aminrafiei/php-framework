@@ -11,7 +11,6 @@ namespace Core\Kernel;
 require 'helper.php';
 
 use Core\Cache\Cache;
-use Core\Cache\Redis\RedisDriver;
 use Core\Database\Connection;
 use Core\Database\MySql\MySqlQueryBuilder;
 use Core\Router;
@@ -74,15 +73,15 @@ class App
         $this->bind('config', require 'config.php');
 
         $binds = [
-            'app'      => self::$instance,
+            'app' => self::$instance,
             'database' => new MySqlQueryBuilder(Connection::make()),
-            'session'  => Session::getInstance(),
+            'session' => Session::getInstance(),
         ];
 
         $registers = [
-            'request'    => Request::class,
+            'request' => Request::class,
             'validation' => Validation::class,
-            'cache'      => RedisDriver::class,
+            'cache' => Cache::class,
         ];
 
         $this->resolveBootstrap($binds, $registers);
@@ -146,7 +145,15 @@ class App
             }
         }
 
-        $class = $this->makeInstance($class, $result);
+        if ($ref->isInterface()) {
+            try {
+                $class = $this->resolveInterface($ref);
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        } else {
+            $class = $this->makeInstance($class, $result);
+        }
 
         return $result;
     }
@@ -171,6 +178,20 @@ class App
         }
 
         return null;
+    }
+
+    /**
+     * @param ReflectionClass $class
+     * @return mixed
+     * @throws \Exception
+     */
+    private function resolveInterface(ReflectionClass $class)
+    {
+        if (is_null($this->register[$class->name])) {
+            throw new \Exception("cant resolve interface!");
+        }
+
+        return $this->get($class);
     }
 
     /**
