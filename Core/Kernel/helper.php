@@ -75,7 +75,7 @@ function auth()
 }
 
 /**
- * @return \Core\Kernel\Validation
+ * @return \Core\Kernel\Validation\Validation
  */
 function validation()
 {
@@ -83,7 +83,7 @@ function validation()
 }
 
 /**
- * @return mixed
+ * @return \Core\Kernel\Session
  */
 function session()
 {
@@ -91,7 +91,7 @@ function session()
 }
 
 /**
- * @return mixed
+ * @return Core\Cache\Cache
  */
 function cache()
 {

@@ -13,6 +13,7 @@ require 'helper.php';
 use Core\Cache\Cache;
 use Core\Database\Connection;
 use Core\Database\MySql\MySqlQueryBuilder;
+use Core\Kernel\Validation\Validation;
 use Core\Router;
 use ReflectionClass;
 use ReflectionException;
