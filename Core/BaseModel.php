@@ -19,11 +19,6 @@ require_once 'Database/MySql/MySqlQuery.php';
 abstract class BaseModel
 {
     /**
-     * @var
-     */
-    protected $attributes;
-
-    /**
      * @var QueryBuilder
      */
     protected $database;
@@ -97,14 +92,28 @@ abstract class BaseModel
      * @param $value
      * @param $action
      * @param array $columns
-     * @return mixed
+     * @return $this
      */
-    public function where($column, $value, $action, array $columns = ['*'])
+    public function where($column, $value, $action = '=', array $columns = ['*'])
     {
         $this->data = $this->database
             ->table($this->table)
             ->select($columns)
             ->where($column, $value, $action);
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param $value
+     * @param $action
+     * @return $this
+     */
+    public function andWhere($column, $value, $action = '=')
+    {
+        $this->data = $this->database
+            ->andWhere($column, $value, $action);
 
         return $this;
     }
@@ -157,5 +166,4 @@ abstract class BaseModel
     {
         return $this->table;
     }
-
 }

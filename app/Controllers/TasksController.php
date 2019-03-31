@@ -25,9 +25,12 @@ class TasksController extends BaseController
     {
 //        dd("asd");
 //        request()->get();
-//        dd($this->user->find(1)->password);
+        dd($this->user
+            ->where('id', '2')
+            ->AndWhere('name', 'b')
+            ->get());
 
-            $this->user->where('password', 123456, '=')->where('name','b','=');
+//            $this->user->where('password', 123456, '=')->where('name','b','=');
 //            dd($this->user->data);
 //            ->where('name', 'b', '=')
 //            ->get();

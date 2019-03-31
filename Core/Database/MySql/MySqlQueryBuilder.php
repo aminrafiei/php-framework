@@ -16,6 +16,11 @@ require_once 'MySqlQuery.php';
 class MySqlQueryBuilder implements QueryBuilder
 {
     /**
+     * @var array
+     */
+    protected $attributes = ['pdo', 'table', 'query', 'queryPre'];
+
+    /**
      * @var PDO
      */
     protected $pdo;
@@ -80,6 +85,22 @@ class MySqlQueryBuilder implements QueryBuilder
     public function where($column, $value, $action = '=')
     {
         $this->query .= WHERE
+            . $column
+            . $action
+            . "'" . $value . "'";
+
+        return $this;
+    }
+
+    /**
+     * @param $column
+     * @param $value
+     * @param string $action
+     * @return $this|mixed
+     */
+    public function andWhere($column, $value, $action = '=')
+    {
+        $this->query .= UND
             . $column
             . $action
             . "'" . $value . "'";
@@ -170,11 +191,11 @@ class MySqlQueryBuilder implements QueryBuilder
     }
 
     /**
-     * @return string
+     * @param $name
+     * @return string | mixed
      */
-    public function getQuery()
+    public function __get($name)
     {
-        return $this->query;
+        return in_array($name, $this->attributes) ? $this->$name : 'attribute not found!';
     }
-
 }

@@ -213,7 +213,7 @@ class App
     public function make($class, $option = [])
     {
         if (is_null($this->register[$class])) {
-            $this->bind($class, new $class(...$option));
+            $this->bind($class, $this->makeInstance($class, $option));
         }
 
         return $this->get($class);

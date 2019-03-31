@@ -25,7 +25,6 @@ trait Authentic
      */
     private $user = null;
 
-    // TODO : Fix this and ORM
     /**
      * @param $username
      * @param $password
@@ -33,9 +32,11 @@ trait Authentic
      */
     public function auth($username, $password)
     {
-        if ($this->find($username, $this->getUsername()) &&
-            $this->user = $this->find($password, 'password')
-        ) {
+        $this->user = $this->where($this->getUsername(), $username)
+            ->andWhere('password', $password)
+            ->get();
+
+        if ($this->user) {
             session()->login($this->user);
             return true;
         }
@@ -52,11 +53,11 @@ trait Authentic
         $user = new User();
 
         $result = $user->create([
-            'name'     => $request['name'],
+            'name' => $request['name'],
             'username' => $request['username'],
             'password' => $request['password']
         ]);
-        $this->user = $this->find($request['username'],'username');
+        $this->user = $this->find($request['username'], 'username');
 
         if ($result) {
             session()->login($this->user);

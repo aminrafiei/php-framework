@@ -16,3 +16,4 @@ const LIKE       = " LIKE ";
 const WHERE      = " WHERE ";
 const SET        = " SET ";
 const VALUES     = " VALUES ";
+const UND        = " AND ";

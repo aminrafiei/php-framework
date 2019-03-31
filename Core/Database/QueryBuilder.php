@@ -42,6 +42,14 @@ interface QueryBuilder
     public function where($column, $value, $action = '=');
 
     /**
+     * @param $column
+     * @param $value
+     * @param string $action
+     * @return mixed
+     */
+    public function andWhere($column, $value, $action = '=');
+
+    /**
      * @param array $columns
      * @param array $values
      * @return bool
