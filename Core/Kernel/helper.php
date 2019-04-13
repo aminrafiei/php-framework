@@ -22,6 +22,7 @@ function redirect($path)
 /**
  * @param $path
  * @param array $data
+ * @return string
  */
 function view($path, $data = [])
 {

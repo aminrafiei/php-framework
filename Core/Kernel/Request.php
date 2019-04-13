@@ -14,6 +14,8 @@ namespace Core\Kernel;
  */
 class Request
 {
+    const NULL = 'NOK';
+
     /**
      * @param array $values
      * @return mixed
@@ -26,7 +28,7 @@ class Request
             $result = null;
 
             foreach ($values as $value) {
-                $result .= $_REQUEST[$value];
+                $result .= $_REQUEST[$value] ?? self::NULL;
             }
 
             return $result;
@@ -68,5 +70,14 @@ class Request
     public function back()
     {
         return redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->get((array)$name);
     }
 }

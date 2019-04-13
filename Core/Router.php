@@ -11,6 +11,10 @@ namespace Core;
 use Exception;
 use ReflectionException;
 
+/**
+ * Class Router
+ * @package Core
+ */
 class Router
 {
     /**
@@ -62,14 +66,26 @@ class Router
     public static function redirect($uri, $method)
     {
         if (array_key_exists($uri, self::$route[$method])) {
+            return self::handleRedirect($uri, $method);
+        }
 
+        return new Exception("Request method not found!");
+    }
+
+    /**
+     * @param $uri
+     * @param $method
+     * @return Exception|mixed
+     */
+    private static function handleRedirect($uri, $method)
+    {
+        if (!is_callable($action = self::$route[$method][$uri])) {
             return self::doAction(
-
-                ...explode('@', self::$route[$method][$uri])
+                ...explode('@', $action)
             );
         }
 
-        return new Exception();
+        return is_string($do = call_user_func($action)) ? var_dump($do) : $do;
     }
 
     /**

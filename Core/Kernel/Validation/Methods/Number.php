@@ -15,6 +15,11 @@ class Number implements Validated
     /**
      * @var string
      */
+    private const MESSAGE = " must be numeric";
+
+    /**
+     * @var string
+     */
     private $attribute;
 
     /**
@@ -39,6 +44,6 @@ class Number implements Validated
      */
     public function message($message = ""): string
     {
-        return !empty($message) ? $message : $this->attribute . " must be numeric";
+        return !empty($message) ? $message : $this->attribute . self::MESSAGE;
     }
 }

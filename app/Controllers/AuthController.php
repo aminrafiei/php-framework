@@ -43,8 +43,8 @@ class AuthController extends BaseController
      */
     public function login()
     {
-        $username = trim(request()->get(['username']));
-        $password = trim(request()->get(['password']));
+        $username = trim(request()->username);
+        $password = trim(request()->password);
 
         if ($this->user->auth($username, $password)) {
             return redirect('/');

@@ -15,6 +15,11 @@ class Email implements Validated
     /**
      * @var string
      */
+    private const MESSAGE = " must be email format";
+
+    /**
+     * @var string
+     */
     private $attribute;
 
     /**
@@ -39,6 +44,6 @@ class Email implements Validated
      */
     public function message($message = ""): string
     {
-        return !empty($message) ? $message : $this->attribute . " must be email format";
+        return !empty($message) ? $message : $this->attribute . self::MESSAGE;
     }
 }

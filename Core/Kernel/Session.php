@@ -41,9 +41,9 @@ class Session
     public function getMessage(): string
     {
         if (isset($_SESSION['message'])) {
-
             $this->message = $_SESSION['message'];
             unset($_SESSION['message']);
+
             return $this->message;
         }
 

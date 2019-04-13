@@ -13,6 +13,11 @@ use Core\Kernel\Validation\Validated;
 class Required implements Validated
 {
     /**
+     * @var string
+     */
+    private const MESSAGE = "required";
+
+    /**
      * @var
      */
     private $attribute;
@@ -39,6 +44,6 @@ class Required implements Validated
      */
     public function message($message = ""): string
     {
-        return !empty($message) ? $message : $this->attribute . " required";
+        return !empty($message) ? $message : $this->attribute . self::MESSAGE;
     }
 }

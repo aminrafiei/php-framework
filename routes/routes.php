@@ -2,7 +2,10 @@
 
 use Core\Router;
 
-Router::get('','PagesController@home');
+//Router::get('','PagesController@home');
+Router::get('',function (){
+    return "wt";
+});
 Router::get('about','PagesController@about');
 Router::get('task','TasksController@index');
 Router::delete('task','TasksController@store');
