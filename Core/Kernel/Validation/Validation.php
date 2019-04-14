@@ -41,7 +41,7 @@ class Validation
     /**
      * @param array $items
      * @param array $rules
-     * @return boolean|string
+     * @return boolean
      */
     public function validate(array $items, array $rules)
     {

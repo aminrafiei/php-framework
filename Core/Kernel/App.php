@@ -10,6 +10,7 @@ namespace Core\Kernel;
 
 require 'helper.php';
 
+use bootstrap;
 use Core\Cache\Cache;
 use Core\Database\Connection;
 use Core\Database\MySql\MySqlQueryBuilder;
@@ -101,7 +102,6 @@ class App
         $this->resolveRegisters($registers);
     }
 
-
     /**
      * @param $binds
      */
@@ -133,7 +133,7 @@ class App
 
         $result = [];
 
-        if (!is_null($con = $ref->getConstructor()) && !empty($params = $con->getParameters())) {
+        if (!is_null($constructor = $ref->getConstructor()) && !empty($params = $constructor->getParameters())) {
 
             foreach ($params as $param) {
                 try {

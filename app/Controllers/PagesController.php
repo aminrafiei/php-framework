@@ -19,23 +19,11 @@ use TestService;
  */
 class PagesController extends BaseController
 {
-    public $test;
-
-    public function __construct(TestService $testService, User $user, testInterface $yeah)
-    {
-        $this->test = $yeah;
-    }
-
     /**
      * view
      */
     public function home()
     {
-//        dd(cache()->remember('test',function (){
-//            return $this->test->user->first();
-//        },999));
-//
-//        dd($this->test->user->first());
         return view('layout');
     }
 
