@@ -20,6 +20,5 @@ class bootstrap
      */
     public static $registers = [
         Cache::class => RedisDriver::class,
-        testInterface::class => NewTestService::class,
     ];
 }

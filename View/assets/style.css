@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:Thin|Raleway");
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+}
+
+.section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2f2f2f;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.glass-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -60%;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
+    transform: rotate(-10deg);
+    transform-origin: bottom left;
+}
+
+.title {
+    margin: 25px 0;
+    font-size: 5rem;
+    text-transform: capitalize;
+}
+
+.nav {
+    font-family: 'Raleway';
+    min-width: 450px;
+    text-align: center;
+    font-size: .95rem;
+    margin: 0;
+    padding: 25px 0;
+    list-style-type: none;
+    border-top: 1px black solid;
+    box-shadow: rgba(255, 255, 255, 0.07) 0 1px 0 inset;
+}
+
+.nav__item {
+    display: inline-block;
+}
+
+.nav__link {
+    padding: 10px 20px;
+    text-transform: uppercase;
+    color: #84bcde;
+    text-decoration: none;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.nav__link:hover {
+    color: #5ca6d3;
+}
+
+.nav__link:hover:after {
+    width: 100%;
+}
+
+.nav__link:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: 1px;
+    background-color: #5ca6d3;
+    color: black;
+    transition: .3s;
+}
+
+/*# sourceMappingURL=style.css.map */

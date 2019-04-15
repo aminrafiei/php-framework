@@ -26,12 +26,4 @@ class PagesController extends BaseController
     {
         return view('layout');
     }
-
-    /**
-     * view
-     */
-    public function about()
-    {
-        return view('about');
-    }
 }

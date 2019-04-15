@@ -28,27 +28,27 @@ function view($path, $data = [])
 {
     //TODO : fix this :)
 
-    $loader = new Twig_Loader_Filesystem('View');
-    $twig = new Twig_Environment($loader);
+//    $loader = new Twig_Loader_Filesystem('View');
+//    $twig = new Twig_Environment($loader);
+//
+//    $twig->addFilter((new \Twig_Filter('auth', function () {
+//        return auth();
+//    })));
+//
+//    $twig->addFilter((new \Twig_Filter('authName', function () {
+//        return auth()->name;
+//    })));
+//
+//    $view = $path . '.view.php';
+//    $data = !empty($data) ? extract($data) : [];
+//
+//    try {
+//        echo $twig->render($view, $data);
+//    } catch (Twig_Error $e) {
+//        $e->getMessage();
+//    }
 
-    $twig->addFilter((new \Twig_Filter('auth', function () {
-        return auth();
-    })));
-
-    $twig->addFilter((new \Twig_Filter('authName', function () {
-        return auth()->name;
-    })));
-
-    $view = $path . '.view.php';
-    $data = !empty($data) ? extract($data) : [];
-
-    try {
-        echo $twig->render($view, $data);
-    } catch (Twig_Error $e) {
-        $e->getMessage();
-    }
-
-//    require 'View/'.$path.'.view.php';
+    require 'View/' . $path . '.view.php';
 }
 
 /**
