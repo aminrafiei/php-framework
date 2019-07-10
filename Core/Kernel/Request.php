@@ -40,7 +40,11 @@ class Request
      */
     public function uri()
     {
-        return trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        return str_replace(
+            config()['base_url'],
+            '',
+            trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/')
+        );
     }
 
     /**

@@ -68,6 +68,14 @@ function request()
 }
 
 /**
+ * @return array
+ */
+function config()
+{
+    return app()->get('config');
+}
+
+/**
  * @return \Core\Kernel\Session
  */
 function auth()
