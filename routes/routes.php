@@ -2,4 +2,4 @@
 
 use Core\Router;
 
-Router::get('','PagesController@home');
+Router::make()->get('','PagesController@home');

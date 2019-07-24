@@ -14,6 +14,7 @@ use bootstrap;
 use Core\Cache\Cache;
 use Core\Database\Connection;
 use Core\Database\MySql\MySqlQueryBuilder;
+use Core\Kernel\Middleware\Middleware;
 use Core\Kernel\Validation\Validation;
 use Core\Router;
 use ReflectionClass;
@@ -61,6 +62,8 @@ class App
      */
     private function handleRequest()
     {
+        app()->get('middleware')->handleRequest();
+
         Router::redirect(
             request()->uri(),
             request()->method()
@@ -84,6 +87,7 @@ class App
             'request' => Request::class,
             'validation' => Validation::class,
             'cache' => Cache::class,
+            'middleware' => Middleware::class
         ];
 
         $this->resolveBootstrap($binds, $registers);

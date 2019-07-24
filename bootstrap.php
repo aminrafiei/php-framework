@@ -21,4 +21,13 @@ class bootstrap
     public static $registers = [
         Cache::class => RedisDriver::class,
     ];
+
+    /**
+     * middleware for all routes
+     *
+     * @var array
+     */
+    public static $middlewares = [
+        'trim' => \Core\Kernel\Middleware\Trim::class,
+    ];
 }

@@ -27,10 +27,10 @@ Sample route :
 ```php
 use Core\Router;
 
-Router::get('hellowrold',function (){
+Router::make()->get('hellowrold',function (){
     return "Hello World!";
 });
-Router::post('home','PagesController@home');
+Router::make()->post('home','PagesController@home');
 ```
 
 ### Sample:how to use Dependency Injection?
@@ -55,6 +55,15 @@ class bootstrap
     public static $registers = [
         SomeInterface::class => SomeService::class,
     ];
+    
+     /**
+      * check this middlewares for all routes
+      *
+      * @var array
+      */
+     public static $middlewares = [
+         'trim' => \Core\Kernel\Middleware\Trim::class,
+     ];
 }
 ```
 

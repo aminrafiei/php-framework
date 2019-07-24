@@ -26,6 +26,11 @@ class Router
         'DELETE' => [],
     ];
 
+    public static function make()
+    {
+        return new Router();
+    }
+
     /**
      * @var array
      */
@@ -34,28 +39,42 @@ class Router
     /**
      * @param $uri
      * @param $path
+     * @return Router
      */
-    public static function post($uri, $path)
+    public function post($uri, $path)
     {
         self::$route['POST'][$uri] = $path;
+
+        return $this;
     }
 
     /**
      * @param $uri
      * @param $path
+     * @return Router
      */
-    public static function get($uri, $path)
+    public function get($uri, $path)
     {
         self::$route['GET'][$uri] = $path;
+
+        return $this;
     }
 
     /**
      * @param $uri
      * @param $path
+     * @return Router
      */
-    public static function delete($uri, $path)
+    public function delete($uri, $path)
     {
         self::$route['DELETE'][$uri] = $path;
+
+        return $this;
+    }
+
+    public function middleware()
+    {
+        
     }
 
     /**
@@ -101,7 +120,7 @@ class Router
      * @param $action
      * @return Exception
      */
-    public static function doAction($controller, $action)
+    private static function doAction($controller, $action)
     {
         $controller = "App\Controller\\" . $controller;
 
