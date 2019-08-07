@@ -23,7 +23,7 @@ class bootstrap
     ];
 
     /**
-     * middleware for all routes
+     * apply this middlewares for all routes
      *
      * @var array
      */
@@ -32,6 +32,8 @@ class bootstrap
     ];
 
     /**
+     * register middlewares
+     *
      * @var array
      */
     public static $middlewares = [

@@ -37,7 +37,7 @@ Router::make()->post('home','PagesController@home');
 
 When you call Controller that has dependency, framework automatically inject a instance of that Class/Interface .
 <br>
-<strong>if you inject interface you must specify which implemention of that interface should bind in bootstarp.php!</strong>
+<strong>if you inject interface you must specify which implementation of that interface should bind in bootstarp.php!</strong>
 ```php
 /**
  * Class bootstrap
@@ -56,14 +56,7 @@ class bootstrap
         SomeInterface::class => SomeService::class,
     ];
     
-     /**
-      * check this middlewares for all routes
-      *
-      * @var array
-      */
-     public static $middlewares = [
-         'trim' => \Core\Kernel\Middleware\Trim::class,
-     ];
+    ...
 }
 ```
 
@@ -78,6 +71,84 @@ class AuthController extends BaseController
         $this->user = $user;
     }
     ...
+```
+
+---------------------
+
+### Sample:how to use Middlewares?
+
+You can use middleware for all routes or specific Controller by register your middleware in ```$middlewares``` and for all routes ```$routeMiddlewares```
+<br>
+<i>you can register in bootstrap.php file</i>
+```php
+/**
+ * Class bootstrap
+ */
+class bootstrap
+{
+    ...
+    
+    /**
+     * apply this middlewares for all routes
+     *
+     * @var array
+     */
+    public static $routeMiddlewares = [
+        'trim',
+    ];
+
+    /**
+     * register middlewares
+     *
+     * @var array
+     */
+    public static $middlewares = [
+        'trim' => \Core\Kernel\Middleware\Rules\Trim::class,
+        'auth' => \Core\Kernel\Middleware\Rules\Auth::class,
+    ];
+}
+```
+
+Example:
+```php
+class PagesController extends BaseController
+{
+    //without params
+    static $middleware = 'auth';
+
+    //also you can send params to your middleware
+    static $middleware = ['role' => 'admin'];
+
+    ...
+```
+
+```php
+class Middleware implements MiddlewareContract
+{
+    /**
+     * you can handle validation by return boolean!
+     * "true" for accept and "false" for failed
+     *
+     * @param array|null $params
+     * @return bool
+     */
+    public static function handle(array $params = null): bool
+    {
+        ...
+        
+        return true;
+    }
+
+    /**
+     * Error message if middleware validation failed
+     *
+     * @return string
+     */
+    public static function message(): string
+    {
+        return ...;
+    }
+}
 ```
 
 ---------------------
