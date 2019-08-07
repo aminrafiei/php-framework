@@ -125,6 +125,7 @@ class Router
         $controller = "App\Controller\\" . $controller;
 
         try {
+            app()->checkMiddleware($controller);
             app()->resolveDependency($controller);
         } catch (ReflectionException $e) {
             $e->getMessage();

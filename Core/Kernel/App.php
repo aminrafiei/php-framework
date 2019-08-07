@@ -81,13 +81,13 @@ class App
             'app' => self::$instance,
             'database' => new MySqlQueryBuilder(Connection::make()),
             'session' => Session::getInstance(),
+            'middleware' => Middleware::getInstance()
         ];
 
         $registers = [
             'request' => Request::class,
             'validation' => Validation::class,
             'cache' => Cache::class,
-            'middleware' => Middleware::class
         ];
 
         $this->resolveBootstrap($binds, $registers);
@@ -123,6 +123,20 @@ class App
     {
         foreach ($registers as $key => $value) {
             $this->register($key, $value);
+        }
+    }
+
+    /**
+     * @param $class
+     * @throws ReflectionException
+     */
+    public function checkMiddleware(&$class)
+    {
+        $ref = new ReflectionClass($class);
+
+        if ($ref->hasProperty('middleware')) {
+            $prop = $ref->getProperty('middleware')->getValue();
+            $this->get('middleware')->handleRequest([$prop]);
         }
     }
 
@@ -262,5 +276,19 @@ class App
         }
 
         return $this->register[$key];
+    }
+
+    /**
+     * @param array $params
+     * @return mixed|null
+     */
+    private function getParams(array $params)
+    {
+        if (count($params) == 1) {
+            return null;
+        }
+        array_pop($params);
+
+        return $params;
     }
 }

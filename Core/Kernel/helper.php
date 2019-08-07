@@ -1,6 +1,7 @@
 <?php
 
 use Core\Kernel\App;
+use Core\Kernel\Request;
 
 /**
  * @param $data
@@ -60,11 +61,11 @@ function app()
 }
 
 /**
- * @return \Core\Kernel\Request
+ * @return Request
  */
 function request()
 {
-    return app()->get('request');
+    return app()->get('request') ?? new Request();
 }
 
 /**

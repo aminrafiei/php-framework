@@ -12,7 +12,7 @@
 
 <header class="header">
     <ul class="nav">
-        <li class="nav__item"><a class="nav__link" href="#">login</a></li>
+        <li class="nav__item"><a class="nav__link" href="login">login</a></li>
         <li class="nav__item"><a class="nav__link" href="#">register</a></li>
     </ul>
 </header>

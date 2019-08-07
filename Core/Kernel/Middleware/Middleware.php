@@ -11,6 +11,11 @@ use Core\Kernel\Request;
 class Middleware
 {
     /**
+     * @var Middleware|null
+     */
+    private static $instance = null;
+
+    /**
      * @var array
      */
     protected $middlewares = [];
@@ -25,44 +30,63 @@ class Middleware
      */
     public function __construct()
     {
-        $this->middlewares = array_merge(bootstrap::$middlewares, $this->middlewares);
+        $this->middlewares = array_merge(bootstrap::$routeMiddlewares, $this->middlewares);
     }
 
     /**
-     * @param Request|null $request
+     * @return Middleware|null
      */
-    public function handleRequest(Request $request = null)
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new Middleware();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * @param null $middlewares
+     * @param Request|null $request
+     * @throws \Exception
+     */
+    public function handleRequest($middlewares = null, Request $request = null)
     {
         $this->request = $request ?? request();
+        $middlewares = $middlewares ?? $this->middlewares;
 
-        foreach ($this->middlewares as $name => $middleware) {
-            $params = $this->getParams(explode(':', $name));
+        foreach ($middlewares as $middleware) {
+            $middlewareClass = $this->checkAndGetMiddleware($middleware);
 
-            if ($middleware::handle($params) != true) {
+            if ($middlewareClass::handle(array_values($middleware)) != true) {
+                $this->handleException($middlewareClass::message());
                 break;
             }
         }
     }
 
     /**
+     * @param $msg
      * @throws \Exception
      */
-    protected function handleException()
+    protected function handleException($msg)
     {
-        throw new \Exception();
+        throw new \Exception($msg);
     }
 
     /**
-     * @param array $params
-     * @return mixed|null
+     * @param $middleware
+     * @return
+     * @throws \Exception
      */
-    private function getParams(array $params)
+    private function checkAndGetMiddleware($middleware)
     {
-        if (count($params) == 1) {
-            return null;
-        }
-        array_pop($params);
+        $middleware = is_string($middleware) ? $middleware : array_keys($middleware)[0];
 
-        return $params;
+        if (!array_key_exists($middleware, bootstrap::$middlewares)) {
+            $this->handleException('middleware not found!');
+        }
+
+        return bootstrap::$middlewares[$middleware];
     }
 }

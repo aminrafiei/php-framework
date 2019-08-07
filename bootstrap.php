@@ -27,7 +27,15 @@ class bootstrap
      *
      * @var array
      */
+    public static $routeMiddlewares = [
+        'trim',
+    ];
+
+    /**
+     * @var array
+     */
     public static $middlewares = [
-        'trim' => \Core\Kernel\Middleware\Trim::class,
+        'trim' => \Core\Kernel\Middleware\Rules\Trim::class,
+        'auth' => \Core\Kernel\Middleware\Rules\Auth::class,
     ];
 }

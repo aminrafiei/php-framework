@@ -1,6 +1,8 @@
 <?php
 
-namespace Core\Kernel\Middleware;
+namespace Core\Kernel\Middleware\Rules;
+
+use Core\Kernel\Middleware\MiddlewareContract;
 
 /**
  * Class Trim
@@ -19,5 +21,13 @@ class Trim implements MiddlewareContract
         }
 
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    public static function message(): string
+    {
+        return 'cant be trim';
     }
 }
