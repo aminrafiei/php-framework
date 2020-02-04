@@ -3,6 +3,7 @@
 namespace Core\Kernel\Middleware;
 
 use bootstrap;
+use Core\Kernel\Middleware\Exceptions\AuthException;
 use Core\Kernel\Request;
 
 /**
@@ -60,10 +61,8 @@ class Middleware
 
             try {
                 $middlewareClass::handle(array_values($middleware));
-            } catch (\AuthException $exception) {
+            } catch (AuthException $exception) {
                 dd($exception->getMessage());
-            } catch (\Exception $exception) {
-                break;
             }
         }
     }

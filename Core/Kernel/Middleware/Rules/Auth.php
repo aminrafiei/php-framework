@@ -2,7 +2,7 @@
 
 namespace Core\Kernel\Middleware\Rules;
 
-use AuthException;
+use Core\Kernel\Middleware\Exceptions\AuthException;
 use Core\Kernel\Middleware\MiddlewareContract;
 
 /**
