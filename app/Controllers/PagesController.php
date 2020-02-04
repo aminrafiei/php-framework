@@ -19,7 +19,7 @@ use TestService;
  */
 class PagesController extends BaseController
 {
-    static $middleware = ['auth'];
+//    static $middleware = ['auth'];
 
     /**
      * view

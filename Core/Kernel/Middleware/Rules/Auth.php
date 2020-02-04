@@ -2,6 +2,7 @@
 
 namespace Core\Kernel\Middleware\Rules;
 
+use Core\Kernel\Middleware\Exceptions\AuthException;
 use Core\Kernel\Middleware\MiddlewareContract;
 
 /**
@@ -13,21 +14,14 @@ class Auth implements MiddlewareContract
     /**
      * @param array|null $params
      * @return bool
+     * @throws \Exception
      */
     public static function handle(array $params = null): bool
     {
         if (is_null(session()->getUser())) {
-            return false;
+           throw new AuthException();
         };
 
         return true;
-    }
-
-    /**
-     * @return string
-     */
-    public static function message(): string
-    {
-        return 'unauthorized';
     }
 }

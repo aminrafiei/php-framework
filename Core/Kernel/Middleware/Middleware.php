@@ -3,6 +3,7 @@
 namespace Core\Kernel\Middleware;
 
 use bootstrap;
+use Core\Kernel\Middleware\Exceptions\AuthException;
 use Core\Kernel\Request;
 
 /**
@@ -58,9 +59,10 @@ class Middleware
         foreach ($middlewares as $middleware) {
             $middlewareClass = $this->checkAndGetMiddleware($middleware);
 
-            if ($middlewareClass::handle(array_values($middleware)) != true) {
-                $this->handleException($middlewareClass::message());
-                break;
+            try {
+                $middlewareClass::handle(array_values($middleware));
+            } catch (AuthException $exception) {
+                dd($exception->getMessage());
             }
         }
     }
@@ -81,10 +83,10 @@ class Middleware
      */
     private function checkAndGetMiddleware($middleware)
     {
-        $middleware = is_string($middleware) ? $middleware : array_keys($middleware)[0];
+        $middleware = is_string($middleware) ? $middleware : array_values($middleware)[0];
 
         if (!array_key_exists($middleware, bootstrap::$middlewares)) {
-            $this->handleException('middleware not found!');
+            $this->handleException('middleware not found!2');
         }
 
         return bootstrap::$middlewares[$middleware];
