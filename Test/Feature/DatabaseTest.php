@@ -12,6 +12,7 @@ class DatabaseTest extends TestCase
 {
     public function test_can_read_from_database()
     {
-        $this->assertTrue(true);
+
+        $this->assertTrue(1);
     }
 }

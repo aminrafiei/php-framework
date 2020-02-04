@@ -4,6 +4,8 @@ use App\Services\NewTestService;
 use App\Services\testInterface;
 use Core\Cache\Cache;
 use Core\Cache\Redis\RedisDriver;
+use Core\Kernel\Middleware\Rules\Auth;
+use Core\Kernel\Middleware\Rules\Trim;
 
 /**
  * Class bootstrap
@@ -37,7 +39,7 @@ class bootstrap
      * @var array
      */
     public static $middlewares = [
-        'trim' => \Core\Kernel\Middleware\Rules\Trim::class,
-        'auth' => \Core\Kernel\Middleware\Rules\Auth::class,
+        'trim' => Trim::class,
+        'auth' => Auth::class,
     ];
 }
