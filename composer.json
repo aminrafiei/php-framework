@@ -23,7 +23,7 @@
   },
   "require": {
     "php": ">=7.0",
-    "twig/twig": "^2.0",
+    "twig/twig": "^3.11",
     "predis/predis": "^1.1"
   }
 }
