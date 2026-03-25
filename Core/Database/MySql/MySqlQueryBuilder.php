@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: amin
- * Date: 1/25/19
- * Time: 9:24 PM
- */
+
+declare(strict_types=1);
 
 namespace Core\Database\MySql;
 
@@ -16,29 +12,34 @@ require_once 'MySqlQuery.php';
 class MySqlQueryBuilder implements QueryBuilder
 {
     /**
-     * @var array
+     * @var array<string>
      */
-    protected $attributes = ['pdo', 'table', 'query', 'queryPre'];
+    protected array $attributes = ['pdo', 'table', 'query', 'queryPre'];
 
     /**
      * @var PDO
      */
-    protected $pdo;
+    protected PDO $pdo;
 
     /**
      * @var string
      */
-    private $table;
+    private string $table = '';
 
     /**
      * @var string
      */
-    private $query;
+    private string $query = '';
 
     /**
-     * @var
+     * @var \PDOStatement|false
      */
     private $queryPre;
+
+    /**
+     * @var array<mixed>
+     */
+    private array $bindings = [];
 
     /**
      * QueryBuilder constructor.
@@ -50,149 +51,142 @@ class MySqlQueryBuilder implements QueryBuilder
     }
 
     /**
-     * @param $table
-     * @return $this
+     * @param string $table
+     * @return static
      */
-    public function table($table)
+    public function table($table): self
     {
         $this->table = $table;
+        // Reset query and bindings when a new table is selected
+        $this->query = '';
+        $this->bindings = [];
 
         return $this;
     }
 
     /**
-     * @param array $attributes
-     * @return $this
+     * @param array<string> $attributes
+     * @return static
      */
-    public function select(array $attributes = ['*'])
+    public function select(array $attributes = ['*']): self
     {
-        $column = join(", ", $attributes);
+        $column = implode(", ", $attributes);
 
-        $this->query = SELECT
-            . $column
-            . FROM
-            . $this->table;
+        $this->query = "SELECT " . $column . " FROM " . $this->table;
 
         return $this;
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param mixed $value
      * @param string $action
-     * @return $this
+     * @return static
      */
-    public function where($column, $value, $action = '=')
+    public function where($column, $value, $action = '='): self
     {
-        $this->query .= WHERE
-            . $column
-            . $action
-            . "'" . $value . "'";
+        $this->query .= " WHERE " . $column . " " . $action . " ?";
+        $this->bindings[] = $value;
 
         return $this;
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param mixed $value
      * @param string $action
-     * @return $this|mixed
+     * @return static
      */
-    public function andWhere($column, $value, $action = '=')
+    public function andWhere($column, $value, $action = '='): self
     {
-        $this->query .= UND
-            . $column
-            . $action
-            . "'" . $value . "'";
+        $this->query .= " AND " . $column . " " . $action . " ?";
+        $this->bindings[] = $value;
 
         return $this;
     }
 
     /**
-     * @param array $columns
-     * @param array $values
+     * @param array<string> $columns
+     * @param array<mixed> $values
      * @return bool
      */
-    public function insert(array $columns, array $values)
+    public function insert(array $columns, array $values): bool
     {
-        $joinColumns = join(', ', $columns);
-        $valueColumns = array_map(function ($columns) {
-            return ":" . $columns;
-        }, $columns);
+        $joinColumns = implode(', ', $columns);
+        $valuePlaceholders = implode(', ', array_fill(0, count($values), '?'));
 
-        $joinValues = join(', ', $valueColumns);
-
-        $this->query = INSERT
-            . $this->table
-            . " ($joinColumns)"
-            . VALUES
-            . "($joinValues)";
-
-        return $this->set(array_combine($columns, $values));
-    }
-
-    /**
-     * @param $columns
-     * @param $value
-     * @param string $key
-     * @return bool
-     */
-    public function update(array $columns, $value, $key = 'id')
-    {
-        $data = array_map(function ($columns, $values) {
-            return "$columns=$values";
-
-        }, array_keys($columns), array_values($columns));
-
-        $data = join(', ', $data);
-
-        $this->query = UPDATE
-            . $this->table
-            . SET
-            . $data
-            . WHERE
-            . $key . '=' . $value;
+        $this->query = "INSERT INTO " . $this->table . " ($joinColumns) VALUES ($valuePlaceholders)";
+        $this->bindings = $values;
 
         return $this->set();
     }
 
     /**
-     * @param $value
+     * @param array<string, mixed> $columns
+     * @param mixed $value
      * @param string $key
      * @return bool
      */
-    public function delete($value, $key)
+    public function update(array $columns, $value, $key = 'id'): bool
     {
-        $this->query = DELETE
-            . $this->table
-            . WHERE
-            . $key . '=' . $value;
+        $setClauses = [];
+        $updateBindings = [];
+
+        foreach ($columns as $k => $v) {
+            $setClauses[] = "$k = ?";
+            $updateBindings[] = $v;
+        }
+
+        $joinClauses = implode(', ', $setClauses);
+
+        $this->query = "UPDATE " . $this->table . " SET " . $joinClauses . " WHERE " . $key . " = ?";
+        
+        $updateBindings[] = $value;
+        $this->bindings = $updateBindings;
 
         return $this->set();
     }
 
     /**
-     * @param array $data
+     * @param mixed $value
+     * @param string $key
      * @return bool
      */
-    public function set($data = [])
+    public function delete($value, $key): bool
     {
+        $this->query = "DELETE FROM " . $this->table . " WHERE " . $key . " = ?";
+        $this->bindings = [$value];
+
+        return $this->set();
+    }
+
+    /**
+     * @param array<mixed> $data
+     * @return bool
+     */
+    public function set($data = []): bool
+    {
+        if (!empty($data)) {
+            $this->bindings = array_merge($this->bindings, $data);
+        }
+
         $this->queryPre = $this->pdo->prepare($this->query);
-        return $this->queryPre->execute($data);
+        
+        return $this->queryPre->execute($this->bindings);
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
-    public function get()
+    public function get(): array
     {
         $this->set();
-        return $this->queryPre->fetchAll(PDO::FETCH_CLASS);
+        return $this->queryPre->fetchAll(PDO::FETCH_CLASS) ?: [];
     }
 
     /**
-     * @param $name
-     * @return string | mixed
+     * @param string $name
+     * @return mixed
      */
     public function __get($name)
     {

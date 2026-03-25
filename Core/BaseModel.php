@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Amin
- * Date: 12/14/2018
- * Time: 7:54 PM
- */
+
+declare(strict_types=1);
 
 namespace Core;
 
@@ -21,35 +17,35 @@ abstract class BaseModel
     /**
      * @var QueryBuilder
      */
-    protected $database;
+    protected QueryBuilder $database;
 
     /**
      * @var string
      */
-    protected $table;
+    protected string $table;
 
     /**
-     * @var
+     * @var mixed
      */
     protected $data;
 
     /**
      * BaseModel constructor.
-     * @param $table
+     * @param string $table
      */
-    public function __construct($table)
+    public function __construct(string $table)
     {
         $this->database = app()->get('database');
         $this->table = $table;
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param string $key
-     * @param array $columns
+     * @param array<string> $columns
      * @return mixed
      */
-    public function find($value, $key = 'id', array $columns = ['*'])
+    public function find($value, string $key = 'id', array $columns = ['*'])
     {
         $this->data = $this->database
             ->table($this->table)
@@ -64,22 +60,23 @@ abstract class BaseModel
      */
     public function first()
     {
-        return array_values($this->get())[0];
+        $items = $this->get();
+        return !empty($items) ? array_values($items)[0] : null;
     }
 
     /**
-     * @return mixed
+     * @return array<mixed>
      */
-    public function get()
+    public function get(): array
     {
         return $this->data->get();
     }
 
     /**
-     * @param array $columns
-     * @return mixed
+     * @param array<string> $columns
+     * @return self
      */
-    public function all(array $columns = ['*'])
+    public function all(array $columns = ['*']): self
     {
         $this->data = $this->database->table($this->table)
             ->select($columns);
@@ -88,13 +85,13 @@ abstract class BaseModel
     }
 
     /**
-     * @param $column
-     * @param $value
-     * @param $action
-     * @param array $columns
-     * @return $this
+     * @param string $column
+     * @param mixed $value
+     * @param string $action
+     * @param array<string> $columns
+     * @return self
      */
-    public function where($column, $value, $action = '=', array $columns = ['*'])
+    public function where(string $column, $value, string $action = '=', array $columns = ['*']): self
     {
         $this->data = $this->database
             ->table($this->table)
@@ -105,12 +102,12 @@ abstract class BaseModel
     }
 
     /**
-     * @param $column
-     * @param $value
-     * @param $action
-     * @return $this
+     * @param string $column
+     * @param mixed $value
+     * @param string $action
+     * @return self
      */
-    public function andWhere($column, $value, $action = '=')
+    public function andWhere(string $column, $value, string $action = '='): self
     {
         $this->data = $this->database
             ->andWhere($column, $value, $action);
@@ -119,33 +116,32 @@ abstract class BaseModel
     }
 
     /**
-     * @param $columns
+     * @param array<string, mixed> $columns
      * @return bool
      */
-    public function create(array $columns)
+    public function create(array $columns): bool
     {
         return $this->database->table($this->table)
             ->insert(array_keys($columns), array_values($columns));
     }
 
     /**
-     * @param array $columns
-     * @param $id
+     * @param array<string, mixed> $columns
+     * @param mixed $id
      * @return bool
      */
-    public function update(array $columns, $id)
+    public function update(array $columns, $id): bool
     {
         return $this->database->table($this->table)
             ->update($columns, $id);
     }
 
-
     /**
-     * @param $value
+     * @param mixed $value
      * @param string $key
-     * @return mixed
+     * @return bool
      */
-    public function delete($value, $key = 'id')
+    public function delete($value, string $key = 'id'): bool
     {
         return $this->database->table($this->table)
             ->delete($value, $key);

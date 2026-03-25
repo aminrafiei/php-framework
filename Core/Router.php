@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Amin
- * Date: 12/7/2018
- * Time: 2:38 PM
- */
+
+declare(strict_types=1);
 
 namespace Core;
 
@@ -13,128 +9,160 @@ use ReflectionException;
 
 /**
  * Class Router
- * @package Core
+ * High-performance regex compiling router mimicking fastest frameworks
  */
 class Router
 {
     /**
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
-    protected static $route = [
-        'GET' => [],
-        'POST' => [],
-        'DELETE' => [],
+    protected static array $staticRoutes = [
+        'GET' => [], 'POST' => [], 'DELETE' => [], 'PUT' => [], 'PATCH' => []
     ];
 
-    public static function make()
+    /**
+     * @var array<string, array<string, mixed>>
+     */
+    protected static array $dynamicRoutes = [
+        'GET' => [], 'POST' => [], 'DELETE' => [], 'PUT' => [], 'PATCH' => []
+    ];
+
+    /**
+     * @return Router
+     */
+    public static function make(): Router
     {
         return new Router();
     }
 
     /**
-     * @var array
+     * @param string $method
+     * @param string $uri
+     * @param mixed $path
      */
-    protected static $names = [];
+    private function addRoute(string $method, string $uri, mixed $path): void
+    {
+        // If route has no variables, use blazing fast O(1) static lookup
+        if (strpos($uri, '{') === false) {
+            self::$staticRoutes[$method][$uri] = $path;
+        } else {
+            // Compile parameters like {id} to named capture groups (?P<id>[^/]+)
+            $regex = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<\1>[^/]+)', $uri);
+            $regex = '#^' . $regex . '$#';
+            self::$dynamicRoutes[$method][$regex] = $path;
+        }
+    }
 
     /**
-     * @param $uri
-     * @param $path
-     * @return Router
+     * @param string $uri
+     * @param mixed $path
+     * @return self
      */
-    public function post($uri, $path)
+    public function post(string $uri, mixed $path): self
     {
-        self::$route['POST'][$uri] = $path;
-
+        $this->addRoute('POST', $uri, $path);
         return $this;
     }
 
     /**
-     * @param $uri
-     * @param $path
-     * @return Router
+     * @param string $uri
+     * @param mixed $path
+     * @return self
      */
-    public function get($uri, $path)
+    public function get(string $uri, mixed $path): self
     {
-        self::$route['GET'][$uri] = $path;
-
+        $this->addRoute('GET', $uri, $path);
         return $this;
     }
 
     /**
-     * @param $uri
-     * @param $path
-     * @return Router
+     * @param string $uri
+     * @param mixed $path
+     * @return self
      */
-    public function delete($uri, $path)
+    public function delete(string $uri, mixed $path): self
     {
-        self::$route['DELETE'][$uri] = $path;
-
+        $this->addRoute('DELETE', $uri, $path);
         return $this;
     }
 
     public function middleware()
     {
-        
+        // Can build middleware pipelines here later
     }
 
     /**
-     * @param $uri
-     * @param $method
-     * @return Exception
+     * @param string $uri
+     * @param string $method
+     * @return mixed
+     * @throws Exception
      */
-    public static function redirect($uri, $method)
+    public static function redirect(string $uri, string $method): mixed
     {
-        if (array_key_exists($uri, self::$route[$method])) {
-            return self::handleRedirect($uri, $method);
+        $method = strtoupper($method);
+
+        if (isset(self::$staticRoutes[$method][$uri])) {
+            return self::handleRedirect(self::$staticRoutes[$method][$uri], []);
         }
 
-        return new Exception("Request method not found!");
-    }
-
-    /**
-     * @param $uri
-     * @param $method
-     * @return Exception|mixed
-     */
-    private static function handleRedirect($uri, $method)
-    {
-        if (!is_callable($action = self::$route[$method][$uri])) {
-            return self::doAction(
-                ...explode('@', $action)
-            );
+        // 2. Fallback to Regex execution for parameterized routes
+        if (!empty(self::$dynamicRoutes[$method])) {
+            foreach (self::$dynamicRoutes[$method] as $regex => $action) {
+                if (preg_match($regex, $uri, $matches)) {
+                    // Extract only the string keys (named groups)
+                    $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+                    return self::handleRedirect($action, $params);
+                }
+            }
         }
 
-        return is_string($do = call_user_func($action)) ? var_dump($do) : $do;
+        throw new Exception("404 - Request route or method not found for URI: $uri");
     }
 
     /**
-     * @return array
+     * @param mixed $action
+     * @param array<string, mixed> $params
+     * @return mixed
+     * @throws Exception
      */
-    public static function getRoute(): array
+    private static function handleRedirect(mixed $action, array $params): mixed
     {
-        return self::$route;
+        if (!is_callable($action)) {
+            $parts = explode('@', $action);
+            return self::doAction($parts[0], $parts[1] ?? 'index', $params);
+        }
+
+        // Call closures directly
+        $do = call_user_func_array($action, array_values($params));
+        return is_string($do) ? var_dump($do) : $do;
     }
 
     /**
-     * @param $controller
-     * @param $action
-     * @return Exception
+     * @param string $controller
+     * @param string $action
+     * @param array<string, mixed> $params
+     * @return mixed
+     * @throws Exception
      */
-    private static function doAction($controller, $action)
+    private static function doAction(string $controller, string $action, array $params): mixed
     {
-        $controller = "App\Controller\\" . $controller;
+        $controllerClass = "App\\Controller\\" . $controller;
+        if (!class_exists($controllerClass)) {
+            $controllerClass = "App\\Controllers\\" . $controller;
+        }
 
         try {
-            app()->checkMiddleware($controller);
-            app()->resolveDependency($controller);
+            app()->checkMiddleware($controllerClass);
+            app()->resolveDependency($controllerClass);
         } catch (ReflectionException $e) {
-            $e->getMessage();
+            throw new Exception("Reflection Error: " . $e->getMessage(), 0, $e);
         }
 
-        if (!method_exists($controller, $action)) {
-            return new Exception('no');
+        if (!method_exists($controllerClass, $action)) {
+            throw new Exception("Method $action does not exist on controller $controllerClass");
         }
 
-        return $controller->$action();
+        /** @var object $controllerClass */
+        return call_user_func_array([$controllerClass, $action], array_values($params));
     }
 }

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\Kernel\Middleware;
 
-use bootstrap;
+use app\Bootstrap;
 use Core\Kernel\Middleware\Exceptions\AuthException;
 use Core\Kernel\Request;
+use Exception;
 
 /**
  * Class Middleware
@@ -14,32 +17,32 @@ class Middleware
     /**
      * @var Middleware|null
      */
-    private static $instance = null;
+    private static ?Middleware $instance = null;
 
     /**
-     * @var array
+     * @var array<mixed>
      */
-    protected $middlewares = [];
+    protected array $middlewares = [];
 
     /**
-     * @var
+     * @var Request|null
      */
-    protected $request;
+    protected ?Request $request = null;
 
     /**
      * Middleware constructor.
      */
     public function __construct()
     {
-        $this->middlewares = array_merge(bootstrap::$routeMiddlewares, $this->middlewares);
+        $this->middlewares = array_merge(Bootstrap::$routeMiddlewares, $this->middlewares);
     }
 
     /**
-     * @return Middleware|null
+     * @return Middleware
      */
-    public static function getInstance()
+    public static function getInstance(): Middleware
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new Middleware();
         }
 
@@ -47,48 +50,50 @@ class Middleware
     }
 
     /**
-     * @param null $middlewares
+     * @param array<mixed>|null $middlewares
      * @param Request|null $request
-     * @throws \Exception
+     * @throws Exception
      */
-    public function handleRequest($middlewares = null, Request $request = null)
+    public function handleRequest(?array $middlewares = null, ?Request $request = null): void
     {
         $this->request = $request ?? request();
-        $middlewares = $middlewares ?? $this->middlewares;
+        $middlewaresToRun = $middlewares ?? $this->middlewares;
 
-        foreach ($middlewares as $middleware) {
+        foreach ($middlewaresToRun as $middleware) {
             $middlewareClass = $this->checkAndGetMiddleware($middleware);
 
             try {
-                $middlewareClass::handle(array_values($middleware));
+                if (method_exists($middlewareClass, 'handle')) {
+                    $middlewareClass::handle(is_array($middleware) ? array_values($middleware) : [$middleware]);
+                }
             } catch (AuthException $exception) {
-                dd($exception->getMessage());
+                throw new Exception($exception->getMessage(), 0, $exception);
             }
         }
     }
 
     /**
-     * @param $msg
-     * @throws \Exception
+     * @param string $msg
+     * @throws Exception
      */
-    protected function handleException($msg)
+    protected function handleException(string $msg): void
     {
-        throw new \Exception($msg);
+        throw new Exception($msg);
     }
 
     /**
-     * @param $middleware
-     * @return
-     * @throws \Exception
+     * @param mixed $middleware
+     * @return string
+     * @throws Exception
      */
-    private function checkAndGetMiddleware($middleware)
+    private function checkAndGetMiddleware($middleware): string
     {
-        $middleware = is_string($middleware) ? $middleware : array_values($middleware)[0];
+        $middlewareName = is_string($middleware) ? $middleware : array_values($middleware)[0];
 
-        if (!array_key_exists($middleware, bootstrap::$middlewares)) {
-            $this->handleException('middleware not found!2');
+        if (!array_key_exists($middlewareName, Bootstrap::$middlewares)) {
+            $this->handleException('Middleware not found!');
         }
 
-        return bootstrap::$middlewares[$middleware];
+        return Bootstrap::$middlewares[$middlewareName];
     }
 }

@@ -26,8 +26,8 @@ class Connection
               $config['username'],
               $config['password']
             );
-        }catch (PDOException $exception){
-            die($exception->getMessage());
+        } catch (PDOException $exception) {
+            throw new \Exception("Database Connection Error: " . $exception->getMessage(), 500, $exception);
         }
     }
 }

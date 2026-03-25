@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Amin
@@ -6,11 +7,13 @@
  * Time: 9:36 PM
  */
 
+declare(strict_types=1);
+
 namespace Core\Kernel;
 
 require 'helper.php';
 
-use bootstrap;
+use app\Bootstrap;
 use Core\Cache\Cache;
 use Core\Database\Connection;
 use Core\Database\MySql\MySqlQueryBuilder;
@@ -99,8 +102,8 @@ class App
      */
     private function resolveBootstrap($binds, $registers)
     {
-        $binds = array_merge(bootstrap::$binds, $binds);
-        $registers = array_merge(bootstrap::$registers, $registers);
+        $binds = array_merge(Bootstrap::$binds, $binds);
+        $registers = array_merge(Bootstrap::$registers, $registers);
 
         $this->resolveBinds($binds);
         $this->resolveRegisters($registers);
@@ -159,7 +162,7 @@ class App
                     $result[] = $this->makeDependency($param);
 
                 } catch (\ReflectionException $e) {
-                    dd($e->getMessage());
+                    throw new \RuntimeException($e->getMessage(), 0, $e);
                 }
             }
         }
@@ -168,7 +171,7 @@ class App
             try {
                 $class = $this->resolveInterface($ref);
             } catch (\Exception $e) {
-                dd($e->getMessage());
+                throw new \RuntimeException($e->getMessage(), 0, $e);
             }
         } else {
             $class = $this->makeInstance($class, $result);
@@ -184,13 +187,18 @@ class App
      */
     private function makeDependency(\ReflectionParameter $parameters)
     {
-        if (!is_null($class = $parameters->getClass())) {
+        $type = $parameters->getType();
+
+        if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) {
+            $className = $type->getName();
+            $class = new \ReflectionClass($className);
 
             if (
                 !is_null($class->getConstructor())
                 && !empty($class->getConstructor()->getParameters())
             ) {
-                $option = $this->resolveDependency($class->name);
+                $refClassName = $class->name;
+                $option = $this->resolveDependency($refClassName);
             }
 
             return $this->make($class->name, $option ?? []);
@@ -206,11 +214,11 @@ class App
      */
     private function resolveInterface(ReflectionClass $class)
     {
-        if (is_null($this->register[$class->name])) {
+        if (!isset($this->register[$class->name])) {
             throw new \Exception("cant resolve interface!");
         }
 
-        return $this->get($class);
+        return $this->get($class->name);
     }
 
     /**
@@ -230,7 +238,7 @@ class App
      */
     public function make($class, $option = [])
     {
-        if (is_null($this->register[$class])) {
+        if (!isset($this->register[$class])) {
             $this->bind($class, $this->makeInstance($class, $option));
         }
 
@@ -257,9 +265,11 @@ class App
     public function register($key, $class)
     {
         try {
-            $this->resolveDependency($class);
+            $refClassName = $class;
+            $this->resolveDependency($refClassName);
+            $class = $refClassName;
         } catch (ReflectionException $e) {
-            dd($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), 0, $e);
         }
 
         $this->bind($key, $class);

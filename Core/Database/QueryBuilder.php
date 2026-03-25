@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Amin
- * Date: 12/7/2018
- * Time: 10:07 AM
- */
+
+declare(strict_types=1);
 
 namespace Core\Database;
 
@@ -22,63 +18,63 @@ interface QueryBuilder
     public function __construct(PDO $pdo);
 
     /**
-     * @param $table
-     * @return $this
+     * @param string $table
+     * @return static
      */
-    public function table($table);
+    public function table(string $table): self;
 
     /**
-     * @param array $attributes
-     * @return $this
+     * @param array<string> $attributes
+     * @return static
      */
-    public function select(array $attributes = ['*']);
+    public function select(array $attributes = ['*']): self;
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param mixed $value
      * @param string $action
-     * @return $this
+     * @return static
      */
-    public function where($column, $value, $action = '=');
+    public function where(string $column, $value, string $action = '='): self;
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param mixed $value
      * @param string $action
-     * @return mixed
+     * @return static
      */
-    public function andWhere($column, $value, $action = '=');
+    public function andWhere(string $column, $value, string $action = '='): self;
 
     /**
-     * @param array $columns
-     * @param array $values
+     * @param array<string> $columns
+     * @param array<mixed> $values
      * @return bool
      */
-    public function insert(array $columns, array $values);
+    public function insert(array $columns, array $values): bool;
 
     /**
-     * @param $columns
-     * @param $value
+     * @param array<string, mixed> $columns
+     * @param mixed $value
      * @param string $key
      * @return bool
      */
-    public function update(array $columns, $value, $key = 'id');
+    public function update(array $columns, $value, string $key = 'id'): bool;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param string $key
      * @return bool
      */
-    public function delete($value, $key);
+    public function delete($value, string $key): bool;
 
     /**
-     * @param array $data
+     * @param array<mixed> $data
      * @return bool
      */
-    public function set($data = []);
+    public function set(array $data = []): bool;
 
     /**
-     * @return array
+     * @return array<mixed>
      */
-    public function get();
+    public function get(): array;
 }
